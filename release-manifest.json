@@ -1,0 +1,28 @@
+{
+  "product": "maakrop-self-hosted-teacher",
+  "edition": "self_hosted_teacher",
+  "version": "1.109.0",
+  "builtAt": "2026-11-24T22:42:33.778Z",
+  "nodeMinVersion": "20.0.0",
+  "serverEntrySha256": "987ddbbf85458a840edd5bf4e529fa9a5cc6b082f6e9f7c7d3a72dce71262488",
+  "sharpVersion": "0.35.3",
+  "bundle": {
+    "filename": "maakrop-teacher-standalone-v1.109.0-9e15bcf.tar.gz",
+    "url": "https://pub-13ca53ec5ef04d958f02ab2275eb75c0.r2.dev/releases/maakrop-teacher-standalone-v1.109.0-9e15bcf.tar.gz",
+    "sha256": "cbe5216f6533a23b34abaaaa31545806c3e632660a965ff4f4d22c27e1c9c472",
+    "sizeBytes": 89335316
+  },
+  "turbopackExternals": [
+    "@aws-sdk/client-s3-ecbef8e33fd0b8f0",
+    "@better-auth/oauth-provider-d6456ced7e8cf916",
+    "@foliojs-fork/fontkit-51470a37d42364d8",
+    "@mathjax/src-5e040f02166affd2",
+    "better-auth-7619253b5b4ed814",
+    "ffmpeg-static-10162aab81a6ffb5",
+    "pdfmake-e50fddc6ea19a656",
+    "pg-587764f78a6c7a9c",
+    "postcss-9745a0d11e3197ae",
+    "sharp-20c6a5da84e2135f"
+  ],
+  "signature": "W-kXX14NTC-emdPzbS8MMAaNRhLWM-T4js5qrBjKImilm0ZvU93BRmJCUIQ0yKbKItKzf1VjZ2Zmf1k0z1LQAA"
+}

@@ -1,0 +1,19 @@
+# Maakrop Self-Hosted Teacher Edition — Thin Distribution Repository
+# Verified @vercel/nft standalone runtime + node_modules is fetched from R2 CDN via `scripts/fetch-release-bundle.mjs`
+node_modules/
+.next/
+drizzle/
+public/
+assets/
+skills/
+server.js
+.vercel/
+.maakrop-bundle-state.json
+.maakrop-bundle-download-*.tar.gz
+.env
+.env.*
+!.env.example
+/storage/
+*.log
+.DS_Store
+Thumbs.db

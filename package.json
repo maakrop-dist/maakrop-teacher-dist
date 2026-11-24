@@ -1,0 +1,16 @@
+{
+  "name": "maakrop-self-hosted-teacher",
+  "version": "1.109.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prepare:bundle": "node scripts/fetch-release-bundle.mjs",
+    "build": "node scripts/vercel-prebuilt-build.mjs",
+    "start": "node scripts/fetch-release-bundle.mjs --if-missing && node scripts/self-hosted-migrate.mjs --optional && node server.js",
+    "setup": "node scripts/fetch-release-bundle.mjs --if-missing && node scripts/setup-server.mjs",
+    "migrate": "node scripts/fetch-release-bundle.mjs --if-missing && node scripts/self-hosted-migrate.mjs",
+    "update": "node scripts/update-self-hosted.mjs"
+  }
+}

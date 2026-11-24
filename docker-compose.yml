@@ -1,0 +1,11 @@
+services:
+  maakrop:
+    build: .
+    container_name: maakrop-teacher
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./storage:/app/storage

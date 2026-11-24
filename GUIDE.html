@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>คู่มือติดตั้ง Maakrop ส่วนตัวสำหรับครู (ฉบับอ่านง่าย ไม่ต้องเป็นสายไอที)</title>
+    <style>
+      :root {
+        --bg: #f8f9fc;
+        --surface: #ffffff;
+        --surface-2: #f1f4f9;
+        --border: #dfe5f0;
+        --fg: #1b2234;
+        --muted: #58637a;
+        --accent: #1d4ed8;
+        --accent-soft: #e8f0fe;
+        --present: #166534;
+        --present-soft: #e6f6ec;
+        --warn: #9a3412;
+        --warn-soft: #fef3c7;
+        --radius: 16px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "IBM Plex Sans Thai", "Noto Sans Thai", "Sarabun", system-ui, -apple-system, sans-serif;
+        line-height: 1.7;
+      }
+      .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 72px; }
+      .hero {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 28px;
+        margin-bottom: 22px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .reassure-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+      .reassure-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--present-soft);
+        color: var(--present);
+      }
+      h1 { margin: 12px 0 8px; font-size: 26px; line-height: 1.3; }
+      h2 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 10px; }
+      h3 { margin: 14px 0 6px; font-size: 15px; }
+      p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+      .well {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-top: 12px;
+      }
+      .badge-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .grid3 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .grid2 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+      .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 15px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--fg);
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .btn-done { background: var(--present); color: #fff; border-color: var(--present); }
+      .btn:hover { opacity: 0.92; }
+      label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+        background: var(--surface);
+        color: var(--fg);
+      }
+      pre {
+        margin: 8px 0 0;
+        padding: 14px;
+        border-radius: 12px;
+        background: #171c28;
+        color: #eef2fa;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+      .env-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+      .env-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+      .env-meta { min-width: 0; flex: 1; }
+      .env-key { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 700; color: var(--accent); }
+      .env-hint { font-size: 12px; color: var(--muted); margin-left: 6px; }
+      .env-val {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 11px;
+        color: var(--fg);
+        opacity: 0.78;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 560px;
+        margin-top: 2px;
+      }
+      .checklist label { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; margin-bottom: 8px; cursor: pointer; }
+      .note { background: var(--present-soft); color: var(--present); padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 500; margin-top: 12px; }
+      .warn { background: var(--warn-soft); color: var(--warn); padding: 12px 14px; border-radius: 12px; font-size: 13px; margin-top: 12px; }
+      ol { margin: 8px 0 0; padding-left: 20px; color: var(--fg); }
+      li { margin-bottom: 8px; font-size: 14px; }
+      details { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+      summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+      details p { margin-top: 8px; margin-bottom: 0; }
+      .small { font-size: 12px; color: var(--muted); }
+      code { background: #e8edf6; padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <span class="pill">Maakrop Self-Hosted · Teacher Edition (ตลอดชีพ)</span>
+        <h1>คู่มือติดตั้ง Maakrop ส่วนตัวสำหรับครู (ฉบับอ่านง่าย 10 นาทีเสร็จ)</h1>
+        <p>
+          ออกแบบมาสำหรับคุณครูทั่วไปที่ไม่จำเป็นต้องเก่งคอมพิวเตอร์ ทำตาม 4 ขั้นตอนง่ายๆ แค่คลิก คัดลอก และวาง
+          ข้อมูลนักเรียนอยู่ในฐานข้อมูลของคุณ 100%
+        </p>
+        <div class="reassure-row">
+          <span class="reassure-pill">✓ ไม่ต้องเขียนโค้ด</span>
+          <span class="reassure-pill">✓ ฟรีค่าโฮสต์ 0 บาท/เดือน</span>
+          <span class="reassure-pill">✓ ไม่ต้องตั้ง Setup Key</span>
+          <span class="reassure-pill">✓ ไม่มีลายน้ำ</span>
+          <span class="reassure-pill">✓ ข้อมูลอยู่กับครู 100%</span>
+        </div>
+        <div class="btn-row">
+          <a
+            class="btn btn-primary"
+            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaakrop-dist%2Fmaakrop-teacher-dist&project-name=maakrop-teacher&repository-name=maakrop-teacher&env=DATABASE_URL,DATABASE_URL_UNPOOLED,DATABASE_URL_SERVICE,BETTER_AUTH_SECRET,MAAKROP_MASTER_KEY"
+            target="_blank"
+            rel="noopener"
+            >ติดตั้งบน Vercel (1 คลิก)</a
+          >
+          <a class="btn" href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">เปิดดู License Key ของฉัน</a>
+          <a class="btn" href="https://maakrop.com/help/self-hosted-teacher" target="_blank" rel="noopener">เปิดคู่มือฉบับออนไลน์</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">0</span> รู้จัก 3 บริการฟรีที่เราจะใช้ (เข้าใจง่ายๆ ใน 10 วินาที)</h2>
+        <p>ทั้ง 3 เว็บเปิดให้ใช้ฟรีตลอดชีพสำหรับงานส่วนตัว และสามารถล็อกอินด้วยบัญชี Google ได้เลย ไม่ต้องใส่บัตรเครดิต</p>
+        <div class="grid3">
+          <div class="well">
+            <h3>Neon (ฟรี)</h3>
+            <p class="small"><strong>ตู้เก็บข้อมูลส่วนตัวของครู</strong> — เก็บรายชื่อนักเรียน เช็กชื่อ และคะแนนไว้กับคุณ 100%</p>
+            <a class="small" href="https://console.neon.tech" target="_blank" rel="noopener">เปิดเว็บ Neon →</a>
+          </div>
+          <div class="well">
+            <h3>Vercel (ฟรีแผน Hobby)</h3>
+            <p class="small"><strong>ตัวเปิดเว็บไซต์ตลอด 24 ชม.</strong> — ทำให้เปิดเว็บห้องเรียนได้จากมือถือและคอมพิวเตอร์ทุกที่</p>
+            <a class="small" href="https://vercel.com/signup" target="_blank" rel="noopener">เปิดเว็บ Vercel →</a>
+          </div>
+          <div class="well">
+            <h3>GitHub (ฟรี)</h3>
+            <p class="small"><strong>ตู้เก็บโปรแกรม &amp; ปุ่มอัปเดต 1 คลิก</strong> — เมื่อมีเวอร์ชันใหม่ กดปุ่มเดียวอัปเดตได้เลย</p>
+            <a class="small" href="https://github.com/signup" target="_blank" rel="noopener">เปิดเว็บ GitHub →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">1</span> สร้างตู้เก็บข้อมูลบน Neon (3 นาที)</h2>
+        <ol>
+          <li>เข้า <a href="https://console.neon.tech" target="_blank" rel="noopener">console.neon.tech</a> ล็อกอินด้วย Google หรือ GitHub</li>
+          <li>กดปุ่ม <strong>New Project</strong> ตั้งชื่อตามใจชอบ (เช่น <code>my-maakrop</code>) แล้วเลือกโซนเป็น <strong>AWS Asia Pacific (Singapore)</strong> เพื่อความเร็วสูงสุดในไทย</li>
+          <li>กดปุ่ม <strong>Connect</strong> แล้วคัดลอกลิงก์ที่ขึ้นต้นด้วย <code>postgresql://neondb_owner...</code> มาวางในเครื่องมือด้านล่าง (ข้อ 2)</li>
+          <li>กดคัดลอกโค้ด SQL จากเครื่องมือด้านล่าง → กลับไปหน้า Neon กดเมนู <strong>SQL Editor</strong> ด้านซ้าย → วางโค้ดแล้วกดปุ่ม <strong>Run</strong> สีเขียว (ขึ้น Success ถือว่าเสร็จ!)</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">2</span> เครื่องมือช่วยสร้างโค้ด SQL และค่า 5 ช่องอัตโนมัติ</h2>
+        <p>วางลิงก์ฐานข้อมูลจาก Neon ลงในช่องนี้ เครื่องมือจะสร้างโค้ด SQL และปุ่มคัดลอกทีละช่อง 1–5 ให้ทันที (ทำงานในเครื่องคุณ 100% ไม่ส่งข้อมูลออกไปไหน)</p>
+        <div class="well">
+          <label for="neonInput">วางลิงก์จาก Neon (ขึ้นต้นด้วย postgresql://neondb_owner...)</label>
+          <input id="neonInput" type="text" placeholder="postgresql://neondb_owner:xxxx@ep-xxx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require" />
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="genBtn">สร้างคำสั่ง SQL และช่องคัดลอก 1–5</button>
+            <button type="button" class="btn" id="copySqlBtn" style="display:none;">คัดลอกโค้ด SQL (ไปวางใน Neon)</button>
+            <button type="button" class="btn" id="copyAllBtn" style="display:none;">คัดลอกทั้ง 5 ช่องเก็บไว้</button>
+          </div>
+
+          <div id="resultArea" style="display:none; margin-top:16px;">
+            <h3>ส่วนที่ 2.1 — นำโค้ดนี้ไปวางใน Neon SQL Editor แล้วกด Run (ทำครั้งเดียว)</h3>
+            <pre id="sqlOut"></pre>
+
+            <h3 style="margin-top:18px;">ส่วนที่ 2.2 — กดคัดลอกทีละช่อง (1 ถึง 5) ไปวางในหน้าติดตั้ง Vercel</h3>
+            <div id="envList" class="env-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">3</span> กดติดตั้งบน Vercel และวาง 5 ช่อง (3 นาที)</h2>
+        <ol>
+          <li>กดปุ่มสีน้ำเงิน <strong>ติดตั้งบน Vercel (1 คลิก)</strong> ด้านบนสุดของหน้านี้</li>
+          <li>ล็อกอิน Vercel ด้วยบัญชี GitHub → ตั้งชื่อเว็บไซต์ของคุณ (เช่น <code>kru-somchai</code>)</li>
+          <li>กดปุ่ม <strong>คัดลอก</strong> จากช่องที่ 1 ถึง 5 ด้านบน มาวางลงในช่องที่มีชื่อตรงกันบนหน้า Vercel ให้ครบ</li>
+          <li>กดปุ่ม <strong>Deploy</strong> แล้วรอประมาณ 1 นาที ระบบจะดาวน์โหลดโปรแกรมและสร้างตารางฐานข้อมูลให้เองอัตโนมัติ</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">4</span> เปิดหน้า /setup วางรหัสไลเซนส์แล้วเริ่มใช้งาน! (2 นาที)</h2>
+        <ol>
+          <li>เมื่อติดตั้งเสร็จ เปิดเว็บไซต์ของคุณแล้วเติม <code>/setup</code> ต่อท้าย (เช่น <code>https://kru-somchai.vercel.app/setup</code>)</li>
+          <li><strong>ขั้นที่ 1:</strong> ติ๊กยอมรับเงื่อนไข แล้ววาง <strong>รหัสไลเซนส์ (MKTH1...)</strong> จากหน้า <a href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">maakrop.com/settings/self-hosted</a> (ไม่ต้องตั้งหรือกรอก Setup Key!)</li>
+          <li><strong>ขั้นที่ 2:</strong> ตั้งชื่อห้องเรียน ปีการศึกษา และสร้างอีเมลกับรหัสผ่านของครู</li>
+          <li><strong>ขั้นที่ 3:</strong> กดปุ่ม <strong>"ข้ามขั้นตอนนี้และเปิดใช้งานเลย"</strong> ได้ทันที! (คีย์อัปโหลดรูป Cloudflare R2 หรือ Google Gemini AI ค่อยกลับมาใส่ทีหลังเมื่อพร้อมได้ตลอดเวลา)</li>
+        </ol>
+        <div class="note">เสร็จเรียบร้อย! เข้าสู่ระบบด้วยอีเมลที่ตั้งไว้ แล้วเริ่มเช็กชื่อ กรอกคะแนน ตัดเกรด ออกข้อสอบ และทำ ปพ.5 ได้ทันทีโดยไม่มีลายน้ำ</div>
+      </section>
+
+      <section class="card">
+        <h2><span class="badge-num">5</span> อัปเดตเวอร์ชัน ย้ายเว็บ และวิธีแก้ปัญหาเบื้องต้น</h2>
+        <div class="grid2">
+          <div class="well">
+            <h3>อัปเดตเวอร์ชันใหม่ใน 1 คลิก</h3>
+            <p class="small">เปิด GitHub ของคุณ → กดแท็บ <strong>Actions</strong> → เลือก <strong>Sync Upstream Maakrop Release</strong> → กดปุ่ม <strong>Run workflow</strong> เว็บจะอัปเดตเองโดยข้อมูลอยู่ครบ 100%</p>
+          </div>
+          <div class="well">
+            <h3>เปลี่ยนชื่อเว็บหรือย้ายโฮสต์</h3>
+            <p class="small">ไปที่ <strong>maakrop.com/settings/self-hosted</strong> กดปุ่ม <strong>ย้ายโดเมน / ยกเลิกการผูก</strong> แล้วนำรหัสเดิมไปวางบนเว็บใหม่ได้ทันที (ได้ 3 ครั้งต่อ 30 วัน)</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>เปิดหน้าเว็บแล้วขึ้น Error เชื่อมต่อฐานข้อมูลไม่ได้ แก้อย่างไร?</summary>
+          <p>เช็ก 2 จุดง่ายๆ: (1) ลองกลับไปกดปุ่ม <strong>Run</strong> โค้ด SQL ในเมนู SQL Editor ของ Neon อีกครั้ง (2) ตรวจสอบว่าวางค่าทั้ง 5 ช่องใน Vercel ครบและไม่มีช่องว่างเกินด้านหน้าหรือท้ายข้อความ</p>
+        </details>
+        <details>
+          <summary>ยังไม่ใส่คีย์ Cloudflare R2 หรือ Gemini AI จะใช้งานอะไรได้บ้าง?</summary>
+          <p>ใช้งานฟีเจอร์หลักได้ครบเกือบ 100%! เช็กชื่อ กรอกคะแนน ตัดเกรด ออกข้อสอบ ทำ ปพ.5 และเปิดให้นักเรียนดูคะแนนใช้งานได้ทันที ส่วนรูปภาพ/ไฟล์แนบ (R2 ฟรี 10 GB) หรือผู้ช่วย AI (Gemini) ค่อยกลับมาเพิ่มทีหลังได้ที่เมนูตั้งค่าระบบ</p>
+        </details>
+        <details>
+          <summary>ข้อควรจำเกี่ยวกับ MAAKROP_MASTER_KEY</summary>
+          <p>แนะนำบันทึกค่า <code>MAAKROP_MASTER_KEY</code> เก็บไว้ในโน้ตส่วนตัว เพราะใช้เข้ารหัสคีย์บริการเสริม (เช่น R2 / Gemini) ที่คุณบันทึกไว้ในฐานข้อมูล หากเปลี่ยนค่านี้ในภายหลังจะต้องกรอกคีย์บริการเสริมใหม่อีกครั้ง</p>
+        </details>
+      </section>
+    </main>
+
+    <script>
+      let latestSql = "";
+      let latestAll = "";
+
+      function randHex(bytes) {
+        const arr = new Uint8Array(bytes);
+        crypto.getRandomValues(arr);
+        return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      async function copyToClipboard(text, btn, doneText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          const old = btn.textContent;
+          btn.textContent = doneText || "คัดลอกแล้ว ✓";
+          btn.classList.add("btn-done");
+          setTimeout(() => {
+            btn.textContent = old;
+            btn.classList.remove("btn-done");
+          }, 1800);
+        } catch {
+          alert("คัดลอกอัตโนมัติไม่สำเร็จ กรุณาลากคลุมข้อความแล้วกด Ctrl+C");
+        }
+      }
+
+      function generateAll() {
+        const raw = document.getElementById("neonInput").value.trim();
+        let url;
+        try {
+          url = new URL(raw);
+          if (!url.protocol.startsWith("postgres")) throw new Error("bad");
+        } catch {
+          alert("ลิงก์ยังไม่ถูกต้อง — กรุณาคัดลอกลิงก์จากปุ่ม Connect ในหน้า Neon (ต้องขึ้นต้นด้วย postgresql://)");
+          return;
+        }
+        const host = url.hostname;
+        const port = url.port ? ":" + url.port : "";
+        const dbPath = url.pathname && url.pathname !== "/" ? url.pathname : "/neondb";
+        const search = url.search || "?sslmode=require";
+        const pooledHost = host.includes("-pooler.") ? host : host.replace(".", "-pooler.");
+        const directHost = host.replace("-pooler.", ".");
+        const rlsPass = "rls_" + randHex(16);
+        const svcPass = "svc_" + randHex(16);
+        const authSecret = randHex(32);
+        const masterKey = randHex(32);
+
+        latestSql = [
+          "-- วางโค้ดนี้ในเมนู SQL Editor ของ Neon แล้วกดปุ่ม Run เพียงครั้งเดียว",
+          "DO $$ BEGIN",
+          "  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_rls') THEN",
+          "    CREATE ROLE app_rls LOGIN PASSWORD '" + rlsPass + "' NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;",
+          "  ELSE",
+          "    ALTER ROLE app_rls WITH LOGIN PASSWORD '" + rlsPass + "' NOBYPASSRLS;",
+          "  END IF;",
+          "  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'maakrop_service') THEN",
+          "    CREATE ROLE maakrop_service LOGIN PASSWORD '" + svcPass + "' NOSUPERUSER NOCREATEDB NOCREATEROLE BYPASSRLS;",
+          "  ELSE",
+          "    ALTER ROLE maakrop_service WITH LOGIN PASSWORD '" + svcPass + "' BYPASSRLS;",
+          "  END IF;",
+          "END $$;",
+          "GRANT USAGE, CREATE ON SCHEMA public TO app_rls, maakrop_service;",
+          "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO maakrop_service;",
+          "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO maakrop_service;",
+          "GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_rls;",
+          "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_rls;",
+          "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO maakrop_service;",
+          "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO maakrop_service;",
+          "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_rls;",
+          "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO app_rls;",
+        ].join("\n");
+
+        const items = [
+          {
+            key: "DATABASE_URL",
+            hint: "ลิงก์ตู้เก็บข้อมูลหลัก",
+            value: "postgresql://app_rls:" + rlsPass + "@" + pooledHost + port + dbPath + search,
+          },
+          {
+            key: "DATABASE_URL_UNPOOLED",
+            hint: "ลิงก์สำหรับสร้างตารางอัตโนมัติ",
+            value: "postgresql://app_rls:" + rlsPass + "@" + directHost + port + dbPath + search,
+          },
+          {
+            key: "DATABASE_URL_SERVICE",
+            hint: "ลิงก์ระบบหลังบ้าน",
+            value: "postgresql://maakrop_service:" + svcPass + "@" + pooledHost + port + dbPath + search,
+          },
+          {
+            key: "BETTER_AUTH_SECRET",
+            hint: "รหัสความปลอดภัยการเข้าสู่ระบบ",
+            value: authSecret,
+          },
+          {
+            key: "MAAKROP_MASTER_KEY",
+            hint: "กุญแจเข้ารหัสคีย์เสริม (แนะนำจดเก็บไว้)",
+            value: masterKey,
+          },
+        ];
+
+        latestAll = items.map((i) => i.key + "=" + i.value).join("\n");
+        document.getElementById("sqlOut").textContent = latestSql;
+
+        const list = document.getElementById("envList");
+        list.innerHTML = "";
+        items.forEach((item, idx) => {
+          const row = document.createElement("div");
+          row.className = "env-item";
+
+          const meta = document.createElement("div");
+          meta.className = "env-meta";
+
+          const top = document.createElement("div");
+          const keyEl = document.createElement("span");
+          keyEl.className = "env-key";
+          keyEl.textContent = (idx + 1) + ". " + item.key;
+          const hintEl = document.createElement("span");
+          hintEl.className = "env-hint";
+          hintEl.textContent = "— " + item.hint;
+          top.appendChild(keyEl);
+          top.appendChild(hintEl);
+
+          const valEl = document.createElement("div");
+          valEl.className = "env-val";
+          valEl.textContent = item.value;
+
+          meta.appendChild(top);
+          meta.appendChild(valEl);
+
+          const copyBtn = document.createElement("button");
+          copyBtn.type = "button";
+          copyBtn.className = "btn";
+          copyBtn.textContent = "คัดลอกช่องที่ " + (idx + 1);
+          copyBtn.addEventListener("click", () => copyToClipboard(item.value, copyBtn, "คัดลอกแล้ว ✓"));
+
+          row.appendChild(meta);
+          row.appendChild(copyBtn);
+          list.appendChild(row);
+        });
+
+        document.getElementById("resultArea").style.display = "block";
+        document.getElementById("copySqlBtn").style.display = "inline-flex";
+        document.getElementById("copyAllBtn").style.display = "inline-flex";
+      }
+
+      document.getElementById("genBtn").addEventListener("click", generateAll);
+      document.getElementById("copySqlBtn").addEventListener("click", (e) => {
+        if (latestSql) copyToClipboard(latestSql, e.currentTarget, "คัดลอกโค้ด SQL แล้ว ✓");
+      });
+      document.getElementById("copyAllBtn").addEventListener("click", (e) => {
+        if (latestAll) copyToClipboard(latestAll, e.currentTarget, "คัดลอกทั้ง 5 ช่องแล้ว ✓");
+      });
+    </script>
+  </body>
+</html>
