@@ -1,53 +1,109 @@
-# เงื่อนไขการใช้งานซอฟต์แวร์ — Maakrop Self-Hosted Teacher Edition
-# Software License Terms — Maakrop Self-Hosted Teacher Edition
+# Maakrop Self-Hosted Teacher Edition — Commercial End-User License Agreement (EULA)
 
-> **เวอร์ชันเอกสาร:** `2026-11-25` · **รูปแบบไลเซนส์:** Personal Single-Teacher Lifetime License (`MKTH1`)
+```text
+SPDX-License-Identifier: LicenseRef-Maakrop-Self-Hosted-Teacher-1.0
+License Type: Proprietary Commercial Software License (All Rights Reserved)
+Effective Version: 2026-11-25-v1
+Copyright © 2026 Maakrop. All Rights Reserved.
+```
 
----
-
-## ภาษาไทย (เงื่อนไขหลัก 10 ข้อ)
-
-1. **สิทธิ์การใช้งานแบบส่วนตัว 1 บัญชีครูต่อ 1 ไลเซนส์**  
-   License Key 1 คีย์อนุญาตให้ใช้งานได้เฉพาะบัญชีครูผู้สอนเจ้าของสิทธิ์จำนวน 1 บัญชี และติดตั้งใช้งานบนโดเมนหรือเซิร์ฟเวอร์ที่เปิดใช้งานพร้อมกันได้ 1 แห่งเท่านั้น
-
-2. **ใช้งานเพื่อการสอนส่วนตัวเท่านั้น (ห้ามดัดแปลง แจกจ่าย หรือให้บริการผู้อื่น)**  
-   ผู้ได้รับอนุญาตสามารถติดตั้งและใช้งานซอฟต์แวร์นี้เพื่อการจัดการชั้นเรียนของตนเองเท่านั้น ห้ามถอดรหัส แก้ไข ดัดแปลงกลไกตรวจสอบสิทธิ์ แชร์คีย์ต่อ แจกจ่ายซอฟต์แวร์ดัดแปลง หรือนำไปเปิดบริการให้ครู/หน่วยงานอื่นใช้งานร่วมกัน
-
-3. **พอร์ทัลนักเรียนและผู้ปกครองผ่านลิงก์เชิญเท่านั้น**  
-   ครูเจ้าของสิทธิ์สามารถเปิดให้นักเรียนและผู้ปกครองในความดูแลลงทะเบียนผ่านลิงก์เชิญ (`/enroll`) ที่ครูสร้างขึ้นได้ โดยยังคงข้อจำกัดบัญชีครูไม่เกิน 1 บัญชีต่อไลเซนส์
-
-4. **ใช้งานครบทุกฟีเจอร์ฝั่งครูภายใต้ทรัพยากรโฮสต์ของคุณ**  
-   ได้รับสิทธิ์ใช้งานฟีเจอร์ฝั่งครูครบถ้วนโดยไม่มีข้อจำกัดโควตาจากแพลตฟอร์ม ทั้งนี้ความจุ พื้นที่จัดเก็บไฟล์ และปริมาณการใช้งาน AI จะเป็นไปตามข้อจำกัดของโฮสต์ ฐานข้อมูล และ API Key ที่ครูเชื่อมต่อเอง
-
-5. **ความรับผิดชอบค่าโฮสต์และบริการเสริมภายนอก**  
-   ครูผู้ติดตั้งเป็นผู้ดูแลและรับผิดชอบค่าใช้จ่ายโฮสต์ ฐานข้อมูล โดเมน พื้นที่เก็บไฟล์ และบริการเสริมภายนอก (เช่น Gemini, OpenAI, Anthropic, Resend) เองทั้งหมด
-
-6. **การตรวจสอบสิทธิ์ออนไลน์และการย้ายโดเมน**  
-   ระบบจะยืนยัน License Key แบบออนไลน์กับ Maakrop เพื่อออกใบรับรองชั่วคราวแบบเซ็นดิจิทัลอายุ 14 วัน (`MKTL1`) และต่ออายุอัตโนมัติในพื้นหลัง (ใช้งานออฟไลน์ต่อได้สูงสุด 14 วันหากเชื่อมต่อไม่ได้) ครูสามารถยกเลิกผูกโดเมนเพื่อย้ายเซิร์ฟเวอร์ด้วยตนเองได้ที่ `https://maakrop.com/settings/self-hosted` สูงสุด 3 ครั้งในรอบ 30 วัน
-
-7. **กรรมสิทธิ์และความปลอดภัยของข้อมูล 100% (Zero Developer Database Access)**  
-   ข้อมูลนักเรียน คะแนน เช็กชื่อ และไฟล์ทั้งหมดถูกจัดเก็บอยู่บนฐานข้อมูลของครูเองแต่เพียงผู้เดียว ผู้พัฒนาไม่สามารถเข้าถึงฐานข้อมูลของครูได้ การตรวจสอบสิทธิ์ส่งเพียงรหัสไลเซนส์ ชื่อโดเมน รหัสเครื่องสุ่ม และเวอร์ชันซอฟต์แวร์เท่านั้น (ตรวจสอบย้อนหลังได้ในหน้าความโปร่งใสข้อมูล `/admin/system`)
-
-8. **สิทธิ์ในการระงับหรือเพิกถอน License Key**  
-   ผู้พัฒนาขอสงวนสิทธิ์ระงับหรือเพิกถอน License Key หากคำสั่งซื้อถูกขอคืนเงิน มีการแชร์คีย์สาธารณะ หรือละเมิดเงื่อนไขฉบับนี้
-
-9. **ซอฟต์แวร์ตามสภาพ (As-Is) และการอัปเดต**  
-   ซอฟต์แวร์ให้บริการตามสภาพที่ปรากฏ ผู้ใช้งานสามารถดึงอัปเดตเวอร์ชันใหม่ได้จาก Public Repository (`maakrop-dist/maakrop-teacher-dist`) โดยไม่รับประกันการอัปเดตหรือการสนับสนุนตลอดไป
-
-10. **นโยบายความต่อเนื่องกรณีปิดเซิร์ฟเวอร์ตรวจสอบสิทธิ์**  
-    หากในอนาคตผู้พัฒนาตัดสินใจยุติบริการเซิร์ฟเวอร์ตรวจสอบสิทธิ์ออนไลน์ ผู้พัฒนาให้คำมั่นว่าจะออกอัปเดตปลดล็อกเพื่อให้ผู้ถือไลเซนส์ที่ถูกต้องยังสามารถใช้งานซอฟต์แวร์แบบออฟไลน์ได้ต่อไป
+> **Notice:** This is **proprietary commercial software**, not open-source software. Using, deploying, or operating Maakrop Self-Hosted Teacher Edition requires a valid, unrevoked Teacher License Key (`MKTH1`) purchased from or issued by Maakrop (`https://maakrop.com`).
+>
+> **หมายเหตุ (ภาษาไทย):** ซอฟต์แวร์นี้เป็น **ซอฟต์แวร์เชิงพาณิชย์แบบมีลิขสิทธิ์ (Proprietary Commercial License — สงวนลิขสิทธิ์ทั้งหมด)** ไม่ใช่ซอฟต์แวร์โอเพ่นซอร์ส การติดตั้งและใช้งานจำเป็นต้องใช้ License Key ฝั่งครู (`MKTH1`) ที่ถูกต้องจาก Maakrop อ่านสรุปเงื่อนไขภาษาไทยฉบับเต็มได้ในส่วนที่ 2 ด้านล่าง
 
 ---
 
-## English Summary
+## Part 1 — Commercial End-User License Agreement (English — Governing Text)
 
-1. **1 Teacher Account / 1 Active Installation per License:** Each `MKTH1` key licenses one personal teacher account on one active domain at a time.
-2. **Use Only:** Personal teaching use only. No reverse-engineering, tampering with license verification, key sharing, resale, or multi-teacher SaaS hosting.
-3. **Student & Parent Portals:** Permitted for your own students/parents via teacher-issued `/enroll` invite links.
-4. **Full Teacher Features:** Unlimited teacher quotas within your own host, database, storage, and BYOK AI limits.
-5. **Your Infrastructure Costs:** Hosting, DB, storage, custom domain, and AI/email API bills remain your responsibility.
-6. **Online 14-Day Signed Lease & Self-Service Transfers:** Online activation issues a 14-day Ed25519-signed lease (`MKTL1`). Up to 3 self-service domain transfers per rolling 30 days at `https://maakrop.com/settings/self-hosted`.
-7. **Zero Developer Database Access:** All classroom data lives exclusively in your own PostgreSQL database.
-8. **Revocation:** Licenses may be revoked upon refund or breach of terms.
-9. **As-Is Software:** Provided as-is without perpetual update warranty; updates ship via the public Thin Repository.
-10. **Offline Continuity Pledge:** If Maakrop's license server is ever permanently retired, an offline-unlock release will be published for legitimate license holders.
+This Commercial End-User License Agreement ("**Agreement**") is a legal agreement between **Maakrop** ("**Licensor**") and the individual teacher purchasing or lawfully receiving a Teacher License Key ("**Licensee**" or "**you**"). By cloning, deploying, activating, or using the Software, you agree to be bound by the terms of this Agreement.
+
+### 1. Definitions
+- **"Software"** means the Maakrop Self-Hosted Teacher Edition distribution repository (`maakrop-teacher-dist`), its deployment wrapper scripts, templates, documentation, and the compiled runtime release bundles fetched via signed manifests.
+- **"License Key"** means a unique, cryptographically signed Ed25519 personal teacher license token (`MKTH1...`) issued by Licensor.
+- **"Lease"** means a time-bounded (14-day) cryptographically signed offline authorization token (`MKTL1...`) issued by Licensor's verification service for a bound Instance.
+- **"Instance"** means a single active web deployment (one domain/hostname and one connected PostgreSQL database) running the Software.
+- **"Authorized End Users"** means Licensee's own students and their parents/guardians invited strictly via classroom enrollment links (`/enroll`) generated by Licensee.
+
+### 2. Grant of License
+Subject to full payment of the applicable one-time license fee and continuous compliance with this Agreement, Licensor grants Licensee a **non-exclusive, non-transferable, non-sublicensable, revocable, perpetual (lifetime) license** to install and operate the Software strictly for Licensee's personal teaching and classroom management, limited to:
+- **One (1) Teacher Owner Account** per License Key; and
+- **One (1) Active Production Instance** at any given time.
+
+### 3. Permitted Student & Parent Portal Access
+Licensee may enable the optional Student and Parent Portal so Authorized End Users can view attendance, timetables, and published grades or submit leave requests via `/enroll` invite links created by Licensee. This permission does not authorize creating additional teacher accounts or sharing teacher access with other educators.
+
+### 4. Permitted Cloning & Forking for Self-Hosted Deployment
+Notwithstanding the general restriction against redistribution, Licensor grants Licensee a limited right to clone or fork the public thin deployment repository (`https://github.com/maakrop-dist/maakrop-teacher-dist`) into Licensee's personal GitHub or hosting account (such as Vercel) **solely** to deploy, configure, and pull official upstream updates for Licensee's own licensed Instance. This permission does not grant any right to redistribute compiled runtime bundles, remove copyright/license notices, or distribute modified versions of the Software to third parties.
+
+### 5. License Restrictions
+Except as expressly permitted by this Agreement or applicable mandatory law, Licensee shall **not**:
+1. Reverse-engineer, decompile, disassemble, de-obfuscate, or attempt to derive source code from any compiled or obfuscated runtime bundle;
+2. Bypass, disable, tamper with, or circumvent license verification, edition locks, single-teacher account limits, or Ed25519 signature checks;
+3. Share, publish, sell, rent, lease, lend, sublicense, or transfer a License Key to any third party;
+4. Operate the Software as a multi-teacher platform, school-wide system, managed hosting service, or Software-as-a-Service (SaaS) for other teachers or institutions; or
+5. Remove or obscure copyright, trademark, or proprietary notices contained in the repository or license files.
+
+### 6. Online Activation, Signed Lease & Domain Transfers
+- Activation verifies the License Key online with Licensor's licensing API to bind the key to one Instance (`instanceId` + normalized hostname) and issue a signed 14-day Lease (`MKTL1`).
+- The Instance refreshes its Lease automatically in the background and continues operating offline for up to 14 days if Licensor's server is temporarily unreachable.
+- Licensee may unbind and transfer the License Key to a new domain or server via `https://maakrop.com/settings/self-hosted` up to **three (3) times per rolling 30-day window**. The first promotion from `localhost` to a production domain does not count against this quota.
+
+### 7. Data Ownership, Privacy & Zero Developer Access
+- Licensee retains **100% ownership and control** over all student, parent, attendance, grade, exam, and classroom data stored in Licensee's own database and storage buckets.
+- Licensor operates under a **Zero Developer Database Access** architecture and cannot view, query, or access Licensee's database.
+- Online license activation and heartbeat checks transmit only minimal technical metadata: License ID, normalized hostname, random Instance ID, and installed Software version. All outbound requests are logged transparently in `/admin/system`.
+- Licensee is solely responsible for complying with applicable data protection laws (including Thailand's PDPA or equivalent local privacy regulations) as the Data Controller of their own Instance.
+
+### 8. Infrastructure & Third-Party Services
+All teacher-side features are unlocked without platform usage quotas, subject to the capacity and terms of Licensee's own infrastructure. Licensee is solely responsible for procuring, configuring, securing, backing up, and paying for any hosting, database, custom domain, object storage (e.g., Cloudflare R2), email provider, or Bring-Your-Own-Key (BYOK) AI APIs (e.g., Google Gemini, OpenAI, Anthropic).
+
+### 9. Updates, Support & Offline Continuity Pledge
+- Software updates are published on an as-available basis via the public Thin Repository (`maakrop-dist/maakrop-teacher-dist`). Licensor does not guarantee perpetual updates, feature additions, or SLA-backed technical support.
+- **Offline Continuity Pledge:** If Licensor permanently retires the online license verification service in the future, Licensor commits to publishing a final offline-unlock update so holders of valid, unrevoked License Keys may continue operating the Software independently.
+
+### 10. Fees, Refunds & Termination
+- The License Key is sold for a one-time fee as displayed at checkout.
+- Licensor may immediately suspend or revoke a License Key if: (a) the purchase is refunded, reversed, or disputed via a payment processor chargeback; (b) the License Key is leaked or shared publicly; or (c) Licensee commits a material breach of this Agreement.
+- Upon revocation or termination, Licensee must cease operating the Software.
+
+### 11. Disclaimer of Warranties
+THE SOFTWARE IS PROVIDED **"AS IS"** AND **"AS AVAILABLE"**, WITHOUT WARRANTY OF ANY KIND, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR UNINTERRUPTED OR ERROR-FREE OPERATION.
+
+### 12. Limitation of Liability
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF DATA, PROFITS, REVENUE, OR GOODWILL ARISING OUT OF OR RELATED TO THIS AGREEMENT OR USE OF THE SOFTWARE. LICENSOR'S TOTAL AGGREGATE LIABILITY UNDER THIS AGREEMENT SHALL NOT EXCEED THE ACTUAL LICENSE FEE PAID BY LICENSEE FOR THE SOFTWARE.
+
+### 13. Intellectual Property & Third-Party Open-Source Components
+All right, title, and interest in and to the Software, trademarks, logos, and documentation remain the exclusive property of Licensor. The Software incorporates third-party open-source libraries (such as Next.js, React, Drizzle ORM, and PostgreSQL drivers), each governed by its respective open-source license, which does not expand Licensee's rights in the proprietary Maakrop Software.
+
+### 14. Governing Law & Severability
+This Agreement shall be governed by and construed in accordance with the **laws of the Kingdom of Thailand**, without regard to conflict-of-law principles. If any provision of this Agreement is held invalid or unenforceable, the remaining provisions shall remain in full force and effect.
+
+### 15. Entire Agreement & Contact
+This Agreement constitutes the entire agreement between Licensor and Licensee concerning the Software and supersedes all prior discussions. For licensing inquiries or support, contact Licensor via `https://maakrop.com`.
+
+---
+
+## ส่วนที่ 2 — สรุปเงื่อนไขการใช้งานซอฟต์แวร์ฉบับภาษาไทย (Thai Reference Translation)
+
+> *หมายเหตุ: ฉบับภาษาไทยด้านล่างจัดทำขึ้นเพื่อความสะดวกในการทำความเข้าใจ กรณีมีข้อแตกต่างในการตีความทางกฎหมาย ให้ยึดข้อความฉบับภาษาอังกฤษด้านบนเป็นหลัก*
+
+1. **สิทธิ์การใช้งานแบบส่วนตัว 1 บัญชีครูต่อ 1 ไลเซนส์ (ตลอดชีพ):**  
+   License Key (`MKTH1`) 1 คีย์ อนุญาตให้ครูเจ้าของสิทธิ์ใช้งานได้ **1 บัญชีครู** บน **1 เว็บไซต์/โดเมน** ที่เปิดใช้งานพร้อมกัน เพื่อการจัดการชั้นเรียนส่วนตัวของตนเองตลอดชีพ
+2. **พอร์ทัลนักเรียนและผู้ปกครองผ่านลิงก์เชิญ:**  
+   ครูสามารถเปิดให้นักเรียนและผู้ปกครองในห้องที่สอนลงทะเบียนเข้าดูสถิติการมาเรียนและผลการเรียนผ่านลิงก์ `/enroll` ที่ครูสร้างได้ โดยยังคงข้อจำกัดบัญชีครูไม่เกิน 1 บัญชี
+3. **สิทธิ์ในการ Clone / Fork เพื่อติดตั้งและอัปเดต:**  
+   อนุญาตให้ผู้ถือไลเซนส์ Clone หรือ Fork Public Repository (`maakrop-dist/maakrop-teacher-dist`) เข้าบัญชี GitHub หรือ Vercel ของตนเองเพื่อติดตั้งและกดอัปเดตเวอร์ชันใหม่ได้ แต่ห้ามนำไฟล์รันไทม์หรือรหัสไลเซนส์ไปแจกจ่ายต่อ
+4. **ข้อจำกัดการใช้งาน (ห้ามดัดแปลง แจกจ่าย หรือให้บริการผู้อื่น):**  
+   ห้ามถอดรหัส (Reverse Engineer), แก้ไขกลไกตรวจสอบสิทธิ์, แชร์รหัสไลเซนส์ต่อ, จำหน่ายต่อ หรือเปิดให้บริการแบบหลายครู (Multi-Teacher / SaaS) แก่บุคคลหรือหน่วยงานอื่น
+5. **การตรวจสอบสิทธิ์ออนไลน์และการย้ายโดเมน:**  
+   ระบบยืนยันสิทธิ์ออนไลน์เพื่อออกใบรับรองชั่วคราวอายุ 14 วัน (`MKTL1`) ซึ่งต่ออายุอัตโนมัติในพื้นหลังและใช้งานออฟไลน์ต่อได้สูงสุด 14 วัน ครูสามารถกดย้ายโดเมนด้วยตนเองได้ที่ `https://maakrop.com/settings/self-hosted` สูงสุด 3 ครั้งต่อรอบ 30 วัน (ย้ายจาก `localhost` ขึ้นเว็บจริงครั้งแรกฟรีไม่หักโควตา)
+6. **กรรมสิทธิ์ข้อมูล 100% (Zero Developer Database Access):**  
+   ข้อมูลนักเรียน คะแนน เช็กชื่อ และไฟล์ทั้งหมดอยู่ในฐานข้อมูลของครูเอง 100% ผู้พัฒนาไม่สามารถเข้าถึงฐานข้อมูลของครูได้ การเช็กสิทธิ์ส่งเฉพาะรหัสไลเซนส์ ชื่อโดเมน รหัสเครื่องสุ่ม และเวอร์ชันซอฟต์แวร์ (ตรวจสอบประวัติได้ใน `/admin/system`)
+7. **ค่าโฮสต์และบริการเสริมภายนอก:**  
+   ใช้งานครบทุกฟีเจอร์ฝั่งครูโดยไม่มีโควตาแพลตฟอร์ม ทั้งนี้ค่าโฮสต์ ฐานข้อมูล พื้นที่เก็บไฟล์ (เช่น Cloudflare R2) และคีย์ AI (เช่น Gemini / OpenAI / Claude) อยู่ในความดูแลของครูผู้ติดตั้ง
+8. **การอัปเดตและคำมั่นกรณีปิดเซิร์ฟเวอร์ตรวจสอบสิทธิ์:**  
+   สามารถกดอัปเดตเวอร์ชันใหม่ผ่าน Public Repository ได้ตามรอบการเผยแพร่ และหากในอนาคตผู้พัฒนายุติเซิร์ฟเวอร์ตรวจสอบสิทธิ์ ผู้พัฒนาให้คำมั่นว่าจะออกอัปเดตปลดล็อกให้ผู้ถือไลเซนส์ที่ถูกต้องใช้งานแบบออฟไลน์ได้ต่อไป
+9. **การเพิกถอนสิทธิ์เมื่อคืนเงินหรือละเมิดเงื่อนไข:**  
+   ผู้พัฒนาขอสงวนสิทธิ์ระงับหรือเพิกถอน License Key หากคำสั่งซื้อถูกขอคืนเงิน (Refund / Chargeback), มีการเผยแพร่คีย์สาธารณะ หรือละเมิดเงื่อนไขฉบับนี้
+10. **การให้บริการตามสภาพ (AS-IS) การจำกัดความรับผิด และกฎหมายที่ใช้บังคับ:**  
+    ซอฟต์แวร์ให้บริการตามสภาพที่ปรากฏ ความรับผิดสูงสุดของผู้พัฒนาไม่เกินค่าไลเซนส์ที่ชำระจริง และอยู่ภายใต้บังคับแห่งกฎหมายราชอาณาจักรไทย
