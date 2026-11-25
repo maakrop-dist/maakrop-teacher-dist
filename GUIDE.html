@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>คู่มือติดตั้ง Maakrop ส่วนตัวสำหรับครู (ฉบับอ่านง่าย ไม่ต้องเป็นสายไอที)</title>
+    <title>คู่มือติดตั้งและตั้งค่า Maakrop Self-Hosted สำหรับครู (ครบทั้ง 9 บท)</title>
     <style>
       :root {
-        --bg: #f8f9fc;
+        --bg: #f7f6f2;
         --surface: #ffffff;
-        --surface-2: #f1f4f9;
-        --border: #dfe5f0;
+        --surface-2: #f1f0eb;
+        --border: #e1dfd7;
+        --line: #eceae3;
         --fg: #1b2234;
         --muted: #58637a;
         --accent: #1d4ed8;
@@ -26,99 +27,16 @@
         background: var(--bg);
         color: var(--fg);
         font-family: "IBM Plex Sans Thai", "Noto Sans Thai", "Sarabun", system-ui, -apple-system, sans-serif;
-        line-height: 1.7;
+        line-height: 1.68;
       }
-      .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 72px; }
-      .hero {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 28px;
-        margin-bottom: 22px;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        background: var(--accent-soft);
-        color: var(--accent);
-      }
-      .reassure-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
-      .reassure-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        background: var(--present-soft);
-        color: var(--present);
-      }
-      h1 { margin: 12px 0 8px; font-size: 26px; line-height: 1.3; }
-      h2 { margin: 0 0 12px; font-size: 19px; display: flex; align-items: center; gap: 10px; }
-      h3 { margin: 14px 0 6px; font-size: 15px; }
-      p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 22px;
-        margin-bottom: 18px;
-      }
-      .well {
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      code {
         background: var(--surface-2);
-        border-radius: 12px;
-        padding: 14px 16px;
-        margin-top: 12px;
-      }
-      .badge-num {
-        width: 28px;
-        height: 28px;
-        border-radius: 999px;
-        background: var(--accent);
-        color: #fff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: 700;
-        flex-shrink: 0;
-      }
-      .grid3 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-      .grid2 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-      .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 9px 15px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        color: var(--fg);
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-      .btn-done { background: var(--present); color: #fff; border-color: var(--present); }
-      .btn:hover { opacity: 0.92; }
-      label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-      input[type="text"] {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
+        padding: 1px 6px;
+        border-radius: 6px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 13px;
-        background: var(--surface);
-        color: var(--fg);
+        font-size: 12px;
       }
       pre {
         margin: 8px 0 0;
@@ -132,178 +50,510 @@
         white-space: pre-wrap;
         word-break: break-all;
       }
-      .env-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+      .shell { display: flex; min-height: 100dvh; }
+      .sidebar {
+        width: 288px;
+        flex-shrink: 0;
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar-head {
+        padding: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sidebar-title { font-size: 14px; font-weight: 700; margin: 0; }
+      .sidebar-sub { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
+      .sidebar-body { flex: 1; overflow-y: auto; padding: 14px 12px; }
+      .sidebar-foot {
+        padding: 12px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .nav-group { margin-bottom: 16px; }
+      .nav-group-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--muted);
+        padding: 0 10px 6px;
+        margin: 0;
+      }
+      .nav-btn {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        border: 0;
+        background: transparent;
+        color: var(--fg);
+        padding: 8px 10px;
+        border-radius: 12px;
+        text-align: left;
+        cursor: pointer;
+        font-family: inherit;
+        margin-bottom: 2px;
+      }
+      .nav-btn:hover { background: var(--surface-2); }
+      .nav-btn.active { background: var(--accent-soft); color: var(--accent); }
+      .nav-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .nav-btn.active .nav-num { background: var(--accent); color: #fff; }
+      .nav-label { font-size: 12.5px; font-weight: 600; line-height: 1.35; display: block; }
+      .nav-time { font-size: 10.5px; color: var(--muted); display: block; margin-top: 1px; }
+      .foot-link {
+        display: block;
+        padding: 7px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      .foot-link:hover { background: var(--surface-2); text-decoration: none; }
+
+      .mobile-bar {
+        display: none;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 14px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        background: rgba(20, 22, 34, 0.42);
+      }
+      .backdrop.open { display: block; }
+
+      .main-col { flex: 1; min-width: 0; padding: 24px 28px 64px; max-width: 920px; margin: 0 auto; width: 100%; }
+      .top-strip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 14px 18px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .top-strip h1 { margin: 0; font-size: 16px; }
+      .top-strip p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+      .article {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px 26px;
+      }
+      .ch-head { border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 18px; }
+      .ch-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        background: var(--accent);
+        color: #fff;
+      }
+      .pill-soft { background: var(--accent-soft); color: var(--accent); }
+      .pill-opt { background: var(--present-soft); color: var(--present); }
+      .pill-care { background: var(--surface-2); color: var(--muted); }
+      h2 { margin: 0; font-size: 22px; line-height: 1.3; }
+      h3 { margin: 16px 0 6px; font-size: 15px; }
+      p { margin: 0 0 10px; font-size: 14px; color: #363e52; }
+      ol, ul { margin: 6px 0 12px; padding-left: 20px; font-size: 14px; }
+      li { margin-bottom: 6px; }
+      .well { background: var(--surface-2); border-radius: 14px; padding: 14px 16px; margin: 12px 0; }
+      .note { background: var(--present-soft); color: var(--present); border-radius: 12px; padding: 12px 14px; font-size: 13px; font-weight: 500; margin: 12px 0; }
+      .warn { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 12px 14px; font-size: 13px; margin: 12px 0; }
+      .grid2 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+      .grid3 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+      .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--fg);
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .btn:hover { background: var(--surface-2); text-decoration: none; }
+      .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .btn-primary:hover { background: #1a44be; }
+      .btn-done { background: var(--present); color: #fff; border-color: var(--present); }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px;
+        background: var(--surface);
+        color: var(--fg);
+      }
       .env-item {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 10px;
+        gap: 8px;
         background: var(--surface);
         border-radius: 10px;
-        padding: 10px 12px;
+        padding: 9px 12px;
+        margin-top: 6px;
       }
-      .env-meta { min-width: 0; flex: 1; }
-      .env-key { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 700; color: var(--accent); }
-      .env-hint { font-size: 12px; color: var(--muted); margin-left: 6px; }
-      .env-val {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 11px;
-        color: var(--fg);
-        opacity: 0.78;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 560px;
-        margin-top: 2px;
+      .env-key { font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; color: var(--accent); }
+      .env-val { font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted); word-break: break-all; }
+      .ch-footer {
+        margin-top: 22px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px;
       }
-      .checklist label { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; margin-bottom: 8px; cursor: pointer; }
-      .note { background: var(--present-soft); color: var(--present); padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 500; margin-top: 12px; }
-      .warn { background: var(--warn-soft); color: var(--warn); padding: 12px 14px; border-radius: 12px; font-size: 13px; margin-top: 12px; }
-      ol { margin: 8px 0 0; padding-left: 20px; color: var(--fg); }
-      li { margin-bottom: 8px; font-size: 14px; }
-      details { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
-      summary { cursor: pointer; font-weight: 600; font-size: 14px; }
-      details p { margin-top: 8px; margin-bottom: 0; }
-      .small { font-size: 12px; color: var(--muted); }
-      code { background: #e8edf6; padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+      .chapter { display: none; }
+      .chapter.active { display: block; }
+      details { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; margin-top: 8px; }
+      summary { cursor: pointer; font-weight: 600; font-size: 13.5px; }
+      details p { margin: 8px 0 0; font-size: 13px; }
+
+      @media (max-width: 960px) {
+        .shell { display: block; }
+        .mobile-bar { display: flex; }
+        .sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          z-index: 50;
+          transform: translateX(-100%);
+          transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+          width: min(86vw, 310px);
+        }
+        .sidebar.open { transform: translateX(0); }
+        .main-col { padding: 16px 14px 48px; }
+        .article { padding: 18px 16px; }
+      }
     </style>
   </head>
   <body>
-    <main class="wrap">
-      <section class="hero">
-        <span class="pill">Maakrop Self-Hosted · Teacher Edition (ตลอดชีพ)</span>
-        <h1>คู่มือติดตั้ง Maakrop ส่วนตัวสำหรับครู (ฉบับอ่านง่าย 10 นาทีเสร็จ)</h1>
-        <p>
-          ออกแบบมาสำหรับคุณครูทั่วไปที่ไม่จำเป็นต้องเก่งคอมพิวเตอร์ ทำตาม 4 ขั้นตอนง่ายๆ แค่คลิก คัดลอก และวาง
-          ข้อมูลนักเรียนอยู่ในฐานข้อมูลของคุณ 100%
-        </p>
-        <div class="reassure-row">
-          <span class="reassure-pill">✓ ไม่ต้องเขียนโค้ด</span>
-          <span class="reassure-pill">✓ ฟรีค่าโฮสต์ 0 บาท/เดือน</span>
-          <span class="reassure-pill">✓ ไม่ต้องตั้ง Setup Key</span>
-          <span class="reassure-pill">✓ ไม่มีลายน้ำ</span>
-          <span class="reassure-pill">✓ ข้อมูลอยู่กับครู 100%</span>
-        </div>
-        <div class="btn-row">
-          <a
-            class="btn btn-primary"
-            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaakrop-dist%2Fmaakrop-teacher-dist&project-name=maakrop-teacher&repository-name=maakrop-teacher&env=DATABASE_URL,DATABASE_URL_UNPOOLED,DATABASE_URL_SERVICE,BETTER_AUTH_SECRET,MAAKROP_MASTER_KEY"
-            target="_blank"
-            rel="noopener"
-            >ติดตั้งบน Vercel (1 คลิก)</a
-          >
-          <a class="btn" href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">เปิดดู License Key ของฉัน</a>
-          <a class="btn" href="https://maakrop.com/help/self-hosted-teacher" target="_blank" rel="noopener">เปิดคู่มือฉบับออนไลน์</a>
-        </div>
-      </section>
+    <div class="mobile-bar">
+      <button type="button" class="btn" id="openDrawerBtn">☰ สารบัญ · <span id="mobileChLabel">บทที่ 1/9</span></button>
+      <a class="btn" href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">คีย์ของฉัน</a>
+    </div>
+    <div class="backdrop" id="backdrop"></div>
 
-      <section class="card">
-        <h2><span class="badge-num">0</span> รู้จัก 3 บริการฟรีที่เราจะใช้ (เข้าใจง่ายๆ ใน 10 วินาที)</h2>
-        <p>ทั้ง 3 เว็บเปิดให้ใช้ฟรีตลอดชีพสำหรับงานส่วนตัว และสามารถล็อกอินด้วยบัญชี Google ได้เลย ไม่ต้องใส่บัตรเครดิต</p>
-        <div class="grid3">
-          <div class="well">
-            <h3>Neon (ฟรี)</h3>
-            <p class="small"><strong>ตู้เก็บข้อมูลส่วนตัวของครู</strong> — เก็บรายชื่อนักเรียน เช็กชื่อ และคะแนนไว้กับคุณ 100%</p>
-            <a class="small" href="https://console.neon.tech" target="_blank" rel="noopener">เปิดเว็บ Neon →</a>
+    <div class="shell">
+      <aside class="sidebar" id="sidebar" aria-label="สารบัญคู่มือ 9 บท">
+        <div class="sidebar-head">
+          <p class="sidebar-title">คู่มือ Maakrop Self-Hosted ครู</p>
+          <p class="sidebar-sub">ฉบับสมบูรณ์ 9 บท · ติดตั้งง่าย 10 นาที</p>
+        </div>
+        <div class="sidebar-body">
+          <div class="nav-group">
+            <p class="nav-group-label">ส่วนที่ 1 · ติดตั้งจำเป็น (บท 1–4)</p>
+            <button type="button" class="nav-btn active" data-ch="ch1"><span class="nav-num">1</span><span><span class="nav-label">ภาพรวม &amp; เตรียม 3 บัญชีฟรี</span><span class="nav-time">2 นาที</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch2"><span class="nav-num">2</span><span><span class="nav-label">ฐานข้อมูล Neon + รัน SQL &amp; สร้าง 5 ค่า</span><span class="nav-time">3 นาที</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch3"><span class="nav-num">3</span><span><span class="nav-label">Deploy บน Vercel (วาง Env ทีเดียว)</span><span class="nav-time">3 นาที</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch4"><span class="nav-num">4</span><span><span class="nav-label">ตั้งค่าหน้า /setup ครบ 3 ขั้นตอน</span><span class="nav-time">2 นาที</span></span></button>
           </div>
-          <div class="well">
-            <h3>Vercel (ฟรีแผน Hobby)</h3>
-            <p class="small"><strong>ตัวเปิดเว็บไซต์ตลอด 24 ชม.</strong> — ทำให้เปิดเว็บห้องเรียนได้จากมือถือและคอมพิวเตอร์ทุกที่</p>
-            <a class="small" href="https://vercel.com/signup" target="_blank" rel="noopener">เปิดเว็บ Vercel →</a>
+          <div class="nav-group">
+            <p class="nav-group-label">ส่วนที่ 2 · ฟีเจอร์เสริม (บท 5–8)</p>
+            <button type="button" class="nav-btn" data-ch="ch5"><span class="nav-num">5</span><span><span class="nav-label">เก็บรูป/ไฟล์ด้วย Cloudflare R2</span><span class="nav-time">5 นาที · ข้ามได้</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch6"><span class="nav-num">6</span><span><span class="nav-label">ผู้ช่วย AI (Gemini / OpenAI / Claude)</span><span class="nav-time">3 นาที · ข้ามได้</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch7"><span class="nav-num">7</span><span><span class="nav-label">อีเมล Resend &amp; ล็อกอิน Google</span><span class="nav-time">5 นาที · ข้ามได้</span></span></button>
+            <button type="button" class="nav-btn" data-ch="ch8"><span class="nav-num">8</span><span><span class="nav-label">เกมสด Ably &amp; แผนที่ Mapbox</span><span class="nav-time">3 นาที · ข้ามได้</span></span></button>
           </div>
-          <div class="well">
-            <h3>GitHub (ฟรี)</h3>
-            <p class="small"><strong>ตู้เก็บโปรแกรม &amp; ปุ่มอัปเดต 1 คลิก</strong> — เมื่อมีเวอร์ชันใหม่ กดปุ่มเดียวอัปเดตได้เลย</p>
-            <a class="small" href="https://github.com/signup" target="_blank" rel="noopener">เปิดเว็บ GitHub →</a>
+          <div class="nav-group">
+            <p class="nav-group-label">ส่วนที่ 3 · ดูแลระยะยาว (บท 9)</p>
+            <button type="button" class="nav-btn" data-ch="ch9"><span class="nav-num">9</span><span><span class="nav-label">โดเมนเอง, อัปเดต 1 คลิก &amp; FAQ</span><span class="nav-time">อ้างอิง</span></span></button>
           </div>
         </div>
-      </section>
+        <div class="sidebar-foot">
+          <a class="foot-link" href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">คีย์ไลเซนส์ของฉัน (MKTH1)</a>
+          <a class="foot-link" href="https://maakrop.com/shop/orders" target="_blank" rel="noopener">ประวัติการสั่งซื้อ / รหัสสิทธิ์</a>
+          <a class="foot-link" href="https://maakrop.com/help/self-hosted-teacher" target="_blank" rel="noopener">เปิดคู่มือฉบับออนไลน์ (ภาพประกอบ SVG)</a>
+        </div>
+      </aside>
 
-      <section class="card">
-        <h2><span class="badge-num">1</span> สร้างตู้เก็บข้อมูลบน Neon (3 นาที)</h2>
-        <ol>
-          <li>เข้า <a href="https://console.neon.tech" target="_blank" rel="noopener">console.neon.tech</a> ล็อกอินด้วย Google หรือ GitHub</li>
-          <li>กดปุ่ม <strong>New Project</strong> ตั้งชื่อตามใจชอบ (เช่น <code>my-maakrop</code>) แล้วเลือกโซนเป็น <strong>AWS Asia Pacific (Singapore)</strong> เพื่อความเร็วสูงสุดในไทย</li>
-          <li>กดปุ่ม <strong>Connect</strong> แล้วคัดลอกลิงก์ที่ขึ้นต้นด้วย <code>postgresql://neondb_owner...</code> มาวางในเครื่องมือด้านล่าง (ข้อ 2)</li>
-          <li>กดคัดลอกโค้ด SQL จากเครื่องมือด้านล่าง → กลับไปหน้า Neon กดเมนู <strong>SQL Editor</strong> ด้านซ้าย → วางโค้ดแล้วกดปุ่ม <strong>Run</strong> สีเขียว (ขึ้น Success ถือว่าเสร็จ!)</li>
-        </ol>
-      </section>
-
-      <section class="card">
-        <h2><span class="badge-num">2</span> เครื่องมือช่วยสร้างโค้ด SQL และค่า 5 ช่องอัตโนมัติ</h2>
-        <p>วางลิงก์ฐานข้อมูลจาก Neon ลงในช่องนี้ เครื่องมือจะสร้างโค้ด SQL และปุ่มคัดลอกทีละช่อง 1–5 ให้ทันที (ทำงานในเครื่องคุณ 100% ไม่ส่งข้อมูลออกไปไหน)</p>
-        <div class="well">
-          <label for="neonInput">วางลิงก์จาก Neon (ขึ้นต้นด้วย postgresql://neondb_owner...)</label>
-          <input id="neonInput" type="text" placeholder="postgresql://neondb_owner:xxxx@ep-xxx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require" />
+      <main class="main-col">
+        <div class="top-strip">
+          <div>
+            <h1>Maakrop Self-Hosted — Teacher Edition (ตลอดชีพ)</h1>
+            <p>ฟรีค่าโฮสต์ 0 บาท/เดือน (Vercel + Neon + R2) · ไม่มี Setup Key · ไม่มีลายน้ำ · ข้อมูลอยู่กับคุณ 100%</p>
+          </div>
           <div class="btn-row">
-            <button type="button" class="btn btn-primary" id="genBtn">สร้างคำสั่ง SQL และช่องคัดลอก 1–5</button>
-            <button type="button" class="btn" id="copySqlBtn" style="display:none;">คัดลอกโค้ด SQL (ไปวางใน Neon)</button>
-            <button type="button" class="btn" id="copyAllBtn" style="display:none;">คัดลอกทั้ง 5 ช่องเก็บไว้</button>
-          </div>
-
-          <div id="resultArea" style="display:none; margin-top:16px;">
-            <h3>ส่วนที่ 2.1 — นำโค้ดนี้ไปวางใน Neon SQL Editor แล้วกด Run (ทำครั้งเดียว)</h3>
-            <pre id="sqlOut"></pre>
-
-            <h3 style="margin-top:18px;">ส่วนที่ 2.2 — กดคัดลอกทีละช่อง (1 ถึง 5) ไปวางในหน้าติดตั้ง Vercel</h3>
-            <div id="envList" class="env-list"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2><span class="badge-num">3</span> กดติดตั้งบน Vercel และวาง 5 ช่อง (3 นาที)</h2>
-        <ol>
-          <li>กดปุ่มสีน้ำเงิน <strong>ติดตั้งบน Vercel (1 คลิก)</strong> ด้านบนสุดของหน้านี้</li>
-          <li>ล็อกอิน Vercel ด้วยบัญชี GitHub → ตั้งชื่อเว็บไซต์ของคุณ (เช่น <code>kru-somchai</code>) — เนื่องจากเป็น Public Repository จึงกด Deploy ได้ทันทีโดยไม่ต้องแก้ไขไฟล์ README หรือสร้าง commit เอง</li>
-          <li>กดปุ่ม <strong>คัดลอก</strong> จากช่องที่ 1 ถึง 5 ด้านบน มาวางลงในช่องที่มีชื่อตรงกันบนหน้า Vercel ให้ครบ</li>
-          <li>กดปุ่ม <strong>Deploy</strong> แล้วรอประมาณ 1 นาที ระบบจะดาวน์โหลดโปรแกรมและสร้างตารางฐานข้อมูลให้เองอัตโนมัติ</li>
-        </ol>
-      </section>
-
-      <section class="card">
-        <h2><span class="badge-num">4</span> เปิดหน้า /setup วางรหัสไลเซนส์แล้วเริ่มใช้งาน! (2 นาที)</h2>
-        <ol>
-          <li>เมื่อติดตั้งเสร็จ เปิดเว็บไซต์ของคุณแล้วเติม <code>/setup</code> ต่อท้าย (เช่น <code>https://kru-somchai.vercel.app/setup</code>)</li>
-          <li><strong>ขั้นที่ 1:</strong> ติ๊กยอมรับเงื่อนไข แล้ววาง <strong>รหัสไลเซนส์ (MKTH1...)</strong> จากหน้า <a href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">maakrop.com/settings/self-hosted</a> (ไม่ต้องตั้งหรือกรอก Setup Key!)</li>
-          <li><strong>ขั้นที่ 2:</strong> ตั้งชื่อห้องเรียน ปีการศึกษา และสร้างอีเมลกับรหัสผ่านของครู</li>
-          <li><strong>ขั้นที่ 3:</strong> กดปุ่ม <strong>"ข้ามขั้นตอนนี้และเปิดใช้งานเลย"</strong> ได้ทันที! (คีย์อัปโหลดรูป Cloudflare R2 หรือ Google Gemini AI ค่อยกลับมาใส่ทีหลังเมื่อพร้อมได้ตลอดเวลา)</li>
-        </ol>
-        <div class="note">เสร็จเรียบร้อย! เข้าสู่ระบบด้วยอีเมลที่ตั้งไว้ แล้วเริ่มเช็กชื่อ กรอกคะแนน ตัดเกรด ออกข้อสอบ และทำ ปพ.5 ได้ทันทีโดยไม่มีลายน้ำ</div>
-      </section>
-
-      <section class="card">
-        <h2><span class="badge-num">5</span> อัปเดตเวอร์ชัน ย้ายเว็บ และวิธีแก้ปัญหาเบื้องต้น</h2>
-        <div class="grid2">
-          <div class="well">
-            <h3>อัปเดตเวอร์ชันใหม่ใน 1 คลิก</h3>
-            <p class="small">เปิด GitHub ของคุณ → กดแท็บ <strong>Actions</strong> → เลือก <strong>Sync Upstream Maakrop Release</strong> → กดปุ่ม <strong>Run workflow</strong> เว็บจะอัปเดตเองโดยข้อมูลอยู่ครบ 100%</p>
-          </div>
-          <div class="well">
-            <h3>เปลี่ยนชื่อเว็บหรือย้ายโฮสต์</h3>
-            <p class="small">ไปที่ <strong>maakrop.com/settings/self-hosted</strong> กดปุ่ม <strong>ย้ายโดเมน / ยกเลิกการผูก</strong> แล้วนำรหัสเดิมไปวางบนเว็บใหม่ได้ทันที (ได้ 3 ครั้งต่อ 30 วัน)</p>
+            <a class="btn btn-primary" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaakrop-dist%2Fmaakrop-teacher-dist&project-name=maakrop-teacher&repository-name=maakrop-teacher&env=DATABASE_URL,DATABASE_URL_UNPOOLED,DATABASE_URL_SERVICE,BETTER_AUTH_SECRET,MAAKROP_MASTER_KEY" target="_blank" rel="noopener">ติดตั้งบน Vercel (1 คลิก)</a>
+            <a class="btn" href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">เปิดดูคีย์ไลเซนส์</a>
           </div>
         </div>
 
-        <details>
-          <summary>เปิดหน้าเว็บแล้วขึ้น Error เชื่อมต่อฐานข้อมูลไม่ได้ แก้อย่างไร?</summary>
-          <p>เช็ก 2 จุดง่ายๆ: (1) ลองกลับไปกดปุ่ม <strong>Run</strong> โค้ด SQL ในเมนู SQL Editor ของ Neon อีกครั้ง (2) ตรวจสอบว่าวางค่าทั้ง 5 ช่องใน Vercel ครบและไม่มีช่องว่างเกินด้านหน้าหรือท้ายข้อความ</p>
-        </details>
-        <details>
-          <summary>ยังไม่ใส่คีย์ Cloudflare R2 หรือ Gemini AI จะใช้งานอะไรได้บ้าง?</summary>
-          <p>ใช้งานฟีเจอร์หลักได้ครบเกือบ 100%! เช็กชื่อ กรอกคะแนน ตัดเกรด ออกข้อสอบ ทำ ปพ.5 และเปิดให้นักเรียนดูคะแนนใช้งานได้ทันที ส่วนรูปภาพ/ไฟล์แนบ (R2 ฟรี 10 GB) หรือผู้ช่วย AI (Gemini) ค่อยกลับมาเพิ่มทีหลังได้ที่เมนูตั้งค่าระบบ</p>
-        </details>
-        <details>
-          <summary>ข้อควรจำเกี่ยวกับ MAAKROP_MASTER_KEY</summary>
-          <p>แนะนำบันทึกค่า <code>MAAKROP_MASTER_KEY</code> เก็บไว้ในโน้ตส่วนตัว เพราะใช้เข้ารหัสคีย์บริการเสริม (เช่น R2 / Gemini) ที่คุณบันทึกไว้ในฐานข้อมูล หากเปลี่ยนค่านี้ในภายหลังจะต้องกรอกคีย์บริการเสริมใหม่อีกครั้ง</p>
-        </details>
-      </section>
-    </main>
+        <article class="article">
+          <!-- CHAPTER 1 -->
+          <section class="chapter active" id="ch1" data-num="1">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 1 / 9</span><span class="pill pill-soft">จำเป็น</span></div>
+              <h2>ภาพรวม &amp; เตรียม 3 บัญชีฟรี</h2>
+            </div>
+            <p>ระบบ Maakrop Self-Hosted สำหรับครูออกแบบมาให้ครูทั่วไปติดตั้งใช้งานเองได้ใน <strong>10 นาที</strong> โดยไม่ต้องเขียนโค้ด ไม่ต้องใส่บัตรเครดิต และใช้แผนฟรีตลอดชีพของ 3 บริการมาตรฐานโลก:</p>
+            <div class="grid3">
+              <div class="well"><h3>1. Neon (ฟรี)</h3><p>ฐานข้อมูล PostgreSQL ส่วนตัว เก็บรายชื่อนักเรียน เช็กชื่อ คะแนน และไฟล์ตั้งค่าอยู่กับคุณ 100%</p><a href="https://console.neon.tech" target="_blank" rel="noopener">เปิด console.neon.tech →</a></div>
+              <div class="well"><h3>2. Vercel (ฟรี Hobby)</h3><p>โฮสต์เว็บไซต์ออนไลน์ 24 ชม. เปิดใช้งานได้จากทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์</p><a href="https://vercel.com/signup" target="_blank" rel="noopener">เปิด vercel.com →</a></div>
+              <div class="well"><h3>3. GitHub (ฟรี)</h3><p>เก็บสำเนาโปรเจกต์ของคุณและใช้กดปุ่มอัปเดตเวอร์ชันใหม่จาก Maakrop ใน 1 คลิก</p><a href="https://github.com/signup" target="_blank" rel="noopener">เปิด github.com →</a></div>
+            </div>
+            <div class="note">สิ่งที่ต้องเตรียมเพิ่ม: รหัสไลเซนส์ <code>MKTH1...</code> จากหน้า <a href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">maakrop.com/settings/self-hosted</a> (หากได้รับเป็นรหัสสิทธิ์ <code>MKS-...</code> ให้ไปเปิดใช้งานก่อนที่ <a href="https://maakrop.com/shop/redeem" target="_blank" rel="noopener">maakrop.com/shop/redeem</a>)</div>
+          </section>
+
+          <!-- CHAPTER 2 -->
+          <section class="chapter" id="ch2" data-num="2">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 2 / 9</span><span class="pill pill-soft">จำเป็น</span></div>
+              <h2>สร้างฐานข้อมูล Neon + รัน SQL &amp; สร้าง 5 ค่าอัตโนมัติ</h2>
+            </div>
+            <ol>
+              <li>เข้า <a href="https://console.neon.tech" target="_blank" rel="noopener">console.neon.tech</a> ล็อกอินด้วย Google/GitHub → กด <strong>New Project</strong> เลือกโซน <strong>AWS Asia Pacific (Singapore)</strong></li>
+              <li>กดปุ่ม <strong>Connect</strong> แล้วคัดลอกลิงก์ที่ขึ้นต้นด้วย <code>postgresql://neondb_owner...</code> มาวางในเครื่องมือด้านล่าง</li>
+              <li>คัดลอกโค้ด SQL ไปวางในเมนู <strong>SQL Editor</strong> ของ Neon แล้วกดปุ่ม <strong>Run</strong> สีเขียวครั้งเดียว</li>
+            </ol>
+            <div class="well">
+              <label for="neonInput" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">วางลิงก์ฐานข้อมูลจาก Neon (ทำงานในเครื่องคุณ 100% ไม่ส่งออกนอกเบราว์เซอร์)</label>
+              <input id="neonInput" type="text" placeholder="postgresql://neondb_owner:xxxx@ep-xxx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require" />
+              <div class="btn-row" style="margin-top:10px;">
+                <button type="button" class="btn btn-primary" id="genBtn">สร้างโค้ด SQL + ค่า 5 ช่องสำหรับ Vercel</button>
+                <button type="button" class="btn" id="copySqlBtn" style="display:none;">คัดลอกโค้ด SQL</button>
+                <button type="button" class="btn" id="copyAllBtn" style="display:none;">คัดลอก 5 ค่าสำหรับ Bulk Paste</button>
+                <button type="button" class="btn" id="downloadBackupBtn" style="display:none;">ดาวน์โหลดไฟล์สำรอง (.txt)</button>
+              </div>
+              <div id="resultArea" style="display:none;margin-top:16px;">
+                <h3>2.1 โค้ด SQL (นำไปวางใน Neon SQL Editor แล้วกด Run)</h3>
+                <pre id="sqlOut"></pre>
+                <h3>2.2 ค่า Environment Variables ทั้ง 5 ช่อง (วางทีเดียวบน Vercel)</h3>
+                <div id="envList"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CHAPTER 3 -->
+          <section class="chapter" id="ch3" data-num="3">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 3 / 9</span><span class="pill pill-soft">จำเป็น</span></div>
+              <h2>Deploy บน Vercel (วาง 5 ค่าทีเดียว)</h2>
+            </div>
+            <ol>
+              <li>กดปุ่ม <strong>ติดตั้งบน Vercel (1 คลิก)</strong> ด้านบนสุด แล้วล็อกอินด้วยบัญชี GitHub</li>
+              <li>ตั้งชื่อโปรเจกต์ของคุณ (เช่น <code>kru-somchai</code>) → กด <strong>Create</strong></li>
+              <li>ในส่วน <strong>Configure Project → Environment Variables</strong>: คลิกช่องซ้ายสุดของบรรทัดแรก แล้วกด <code>Ctrl+V</code> เพื่อวางชุด 5 ค่าที่คัดลอกจากบทที่ 2 (Vercel จะแตกออกเป็น 5 ช่องให้ทันที หรือคัดลอกทีละช่องก็ได้)</li>
+              <li>กดปุ่ม <strong>Deploy</strong> รอประมาณ 1–2 นาที ระบบจะดึงรันไทม์และรัน migration สร้างตารางให้อัตโนมัติ</li>
+            </ol>
+            <div class="warn">แนะนำเก็บรักษาไฟล์สำรอง <code>.txt</code> ที่มีค่า <code>MAAKROP_MASTER_KEY</code> ไว้ในที่ปลอดภัย เพราะใช้เข้ารหัสคีย์บริการเสริมทั้งหมดในฐานข้อมูลของคุณ</div>
+          </section>
+
+          <!-- CHAPTER 4 -->
+          <section class="chapter" id="ch4" data-num="4">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 4 / 9</span><span class="pill pill-soft">จำเป็น</span></div>
+              <h2>ตั้งค่าหน้า /setup ครบ 3 ขั้นตอน</h2>
+            </div>
+            <ol>
+              <li>เปิดเว็บไซต์ของคุณแล้วเติม <code>/setup</code> ต่อท้าย (เช่น <code>https://kru-somchai.vercel.app/setup</code>)</li>
+              <li><strong>ขั้นที่ 1 (ไลเซนส์):</strong> ติ๊กยอมรับเงื่อนไขแล้ววางรหัส <code>MKTH1...</code> — <em>ไม่ต้องตั้ง Setup Key!</em></li>
+              <li><strong>ขั้นที่ 2 (บัญชีครู):</strong> ตั้งชื่อห้องเรียน ปีการศึกษา และสร้างอีเมล + รหัสผ่านของครู</li>
+              <li><strong>ขั้นที่ 3 (บริการเสริม):</strong> สามารถกด <strong>"ข้ามขั้นตอนนี้และเปิดใช้งานเลย"</strong> เพื่อเริ่มสอนได้ทันที หรือกลับมาตั้งค่าภายหลังในเมนู <strong>ตั้งค่าระบบ (/admin/system)</strong> ได้ตลอดเวลา</li>
+            </ol>
+            <div class="note">เสร็จเรียบร้อย! เข้าสู่ระบบด้วยบัญชีครูของคุณ แล้วใช้งานเช็กชื่อ คะแนน ตัดเกรด ส่งงาน ปพ.5 และพอร์ทัลนักเรียนได้ทันทีโดยไม่มีลายน้ำ</div>
+          </section>
+
+          <!-- CHAPTER 5 -->
+          <section class="chapter" id="ch5" data-num="5">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 5 / 9</span><span class="pill pill-opt">เสริม · ข้ามได้</span></div>
+              <h2>เก็บรูปภาพและไฟล์ด้วย Cloudflare R2 (ฟรี 10 GB)</h2>
+            </div>
+            <p>สำหรับอัปโหลดรูปโปรไฟล์นักเรียน ใบลา แนบไฟล์งาน และพอร์ตโฟลิโอ สามารถใช้ <strong>Cloudflare R2</strong> แผนฟรี 10 GB/เดือน:</p>
+            <ol>
+              <li>สมัคร/ล็อกอิน <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">Cloudflare Dashboard</a> → ไปที่เมนู <strong>R2 Object Storage</strong> → กด <strong>Create bucket</strong> (เช่น <code>maakrop-files</code>)</li>
+              <li>ไปที่ <strong>R2 → Manage R2 API Tokens → Create API token</strong> เลือกสิทธิ์ <strong>Object Read &amp; Write</strong> เฉพาะ bucket ของคุณ แล้วจด <code>Access Key ID</code>, <code>Secret Access Key</code>, และ <code>S3 Endpoint URL</code></li>
+              <li>เปิดแท็บ <strong>Settings → CORS Policy</strong> ของ bucket แล้ววาง JSON ด้านล่าง (เปลี่ยน <code>YOUR-SITE.vercel.app</code> เป็นโดเมนจริงของคุณ):</li>
+            </ol>
+            <pre id="corsJson">[
+  {
+    "AllowedOrigins": ["https://YOUR-SITE.vercel.app"],
+    "AllowedMethods": ["GET", "PUT", "HEAD"],
+    "AllowedHeaders": ["*"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
+  }
+]</pre>
+            <div class="btn-row" style="margin-top:8px;">
+              <button type="button" class="btn" id="copyCorsBtn">คัดลอก CORS JSON</button>
+            </div>
+            <p style="margin-top:10px;">จากนั้นนำค่า Endpoint, Bucket Name, Access Key ID และ Secret Access Key ไปกรอกที่หน้า <code>/admin/system</code> → แท็บ <strong>พื้นที่เก็บไฟล์ (S3 / R2)</strong> แล้วกดทดสอบการเชื่อมต่อ</p>
+          </section>
+
+          <!-- CHAPTER 6 -->
+          <section class="chapter" id="ch6" data-num="6">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 6 / 9</span><span class="pill pill-opt">เสริม · ข้ามได้</span></div>
+              <h2>ผู้ช่วย AI แบบ BYOK (Gemini / OpenAI / Claude)</h2>
+            </div>
+            <p>ในเวอร์ชัน Self-Hosted คุณใช้ API Key ของตัวเองโดยตรง (จ่ายตามจริงหรือใช้โควตาฟรีจาก Google AI Studio) โดยไม่เสียค่าบวกเพิ่ม:</p>
+            <ul>
+              <li><strong>Google Gemini (แนะนำ · มีโควตาฟรี):</strong> สร้างคีย์ที่ <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a></li>
+              <li><strong>OpenAI / Anthropic / AI Gateway:</strong> นำ API Key ไปใส่ที่หน้า <code>/admin/system</code> → แท็บ <strong>ผู้ช่วย AI</strong></li>
+            </ul>
+            <p>คีย์ทั้งหมดจะถูกเข้ารหัสด้วย <code>MAAKROP_MASTER_KEY</code> ก่อนเก็บลงฐานข้อมูลของคุณ</p>
+          </section>
+
+          <!-- CHAPTER 7 -->
+          <section class="chapter" id="ch7" data-num="7">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 7 / 9</span><span class="pill pill-opt">เสริม · ข้ามได้</span></div>
+              <h2>ส่งอีเมล Resend &amp; ล็อกอินด้วย Google OAuth</h2>
+            </div>
+            <div class="grid2">
+              <div class="well">
+                <h3>อีเมลแจ้งเตือน (Resend)</h3>
+                <p>แผนฟรีส่งได้ 3,000 ฉบับ/เดือน สมัครที่ <a href="https://resend.com" target="_blank" rel="noopener">resend.com</a> → สร้าง API Key แล้วนำมาใส่ที่ <code>/admin/system</code> → อีเมล (สำหรับลืมรหัสผ่านและแจ้งเตือน)</p>
+              </div>
+              <div class="well">
+                <h3>เข้าสู่ระบบด้วย Google</h3>
+                <p>สร้าง OAuth Client ที่ <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Google Cloud Console</a> โดยตั้ง Authorized Redirect URI เป็น:</p>
+                <code>https://YOUR-SITE.vercel.app/api/auth/callback/google</code>
+              </div>
+            </div>
+          </section>
+
+          <!-- CHAPTER 8 -->
+          <section class="chapter" id="ch8" data-num="8">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 8 / 9</span><span class="pill pill-opt">เสริม · ข้ามได้</span></div>
+              <h2>เกมตอบคำถามสด (Ably) &amp; แผนที่เยี่ยมบ้าน (Mapbox)</h2>
+            </div>
+            <div class="grid2">
+              <div class="well">
+                <h3>Ably Realtime (เกมสดในห้องเรียน)</h3>
+                <p>สมัครฟรีที่ <a href="https://ably.com" target="_blank" rel="noopener">ably.com</a> → คัดลอก Root API Key ไปวางที่ <code>/admin/system</code> → เกมสดแบบเรียลไทม์</p>
+              </div>
+              <div class="well">
+                <h3>Mapbox (ปักหมุดแผนที่เยี่ยมบ้าน)</h3>
+                <p>สมัครฟรีที่ <a href="https://account.mapbox.com" target="_blank" rel="noopener">mapbox.com</a> → คัดลอก Public Access Token (<code>pk....</code>) ไปวางที่ <code>/admin/system</code> → แผนที่</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- CHAPTER 9 -->
+          <section class="chapter" id="ch9" data-num="9">
+            <div class="ch-head">
+              <div class="ch-badges"><span class="pill">บทที่ 9 / 9</span><span class="pill pill-care">ดูแลระยะยาว</span></div>
+              <h2>โดเมนส่วนตัว, อัปเดต 1 คลิก &amp; คำถามที่พบบ่อย (FAQ)</h2>
+            </div>
+            <div class="grid2">
+              <div class="well">
+                <h3>อัปเดตเวอร์ชันใหม่ใน 1 คลิก</h3>
+                <p>เปิด GitHub Repository ของคุณ → แท็บ <strong>Actions</strong> → เลือก <strong>Sync Upstream Maakrop Release</strong> → กด <strong>Run workflow</strong> (Vercel จะอัปเดตเวอร์ชันและ migration ให้อัตโนมัติ ข้อมูลอยู่ครบ 100%)</p>
+              </div>
+              <div class="well">
+                <h3>เปลี่ยนโดเมน / ย้ายเครื่องโฮสต์</h3>
+                <p>เข้า <a href="https://maakrop.com/settings/self-hosted" target="_blank" rel="noopener">maakrop.com/settings/self-hosted</a> กด <strong>ยกเลิกการผูกโดเมนเดิม</strong> แล้วนำไลเซนส์เดิมไปใช้งานบนโดเมนใหม่ได้ทันที (ย้ายได้ 3 ครั้งต่อ 30 วัน)</p>
+              </div>
+            </div>
+            <details><summary>วาง 5 ค่าบน Vercel แล้วไม่แตกช่อง ทำอย่างไร?</summary><p>ให้คลิกที่ช่อง Key ซ้ายสุดของแถวแรกแล้วกด <code>Ctrl+V</code> หรือเลือกคัดลอกทีละช่องจากบทที่ 2 มาวางทีละแถวได้เหมือนกัน</p></details>
+            <details><summary>เปิดเว็บแล้วขึ้น Error ฐานข้อมูล แก้อย่างไร?</summary><p>ตรวจสอบว่าได้กด <strong>Run</strong> โค้ด SQL ในบทที่ 2 ใน Neon SQL Editor แล้ว และค่าทั้ง 5 ช่องบน Vercel ไม่มีช่องว่างเกินด้านหน้า/ด้านหลัง</p></details>
+            <details><summary>อัปโหลดรูปนักเรียนไม่ผ่าน ต้องเช็กอะไร?</summary><p>ตรวจสอบ CORS JSON ในบทที่ 5 ว่าใส่ <code>https://</code> และโดเมนตรงกับเว็บของคุณทุกตัวอักษรโดยไม่มีเครื่องหมาย <code>/</code> ต่อท้าย</p></details>
+            <details><summary>ผู้พัฒนาเข้าถึงข้อมูลนักเรียนในฐานข้อมูลเราได้ไหม?</summary><p>ไม่ได้ 100% — ฐานข้อมูลอยู่บนบัญชี Neon ส่วนตัวของคุณ ตัวแอปสื่อสารกับเซิร์ฟเวอร์ Maakrop เฉพาะการตรวจสอบไลเซนส์เท่านั้น</p></details>
+          </section>
+
+          <div class="ch-footer">
+            <button type="button" class="btn" id="prevChBtn">← บทก่อนหน้า</button>
+            <button type="button" class="btn btn-primary" id="nextChBtn">บทถัดไป →</button>
+          </div>
+        </article>
+      </main>
+    </div>
 
     <script>
+      const CHAPTER_IDS = ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"];
+      let activeIdx = 0;
       let latestSql = "";
       let latestAll = "";
+
+      const sidebar = document.getElementById("sidebar");
+      const backdrop = document.getElementById("backdrop");
+      const mobileChLabel = document.getElementById("mobileChLabel");
+      const prevBtn = document.getElementById("prevChBtn");
+      const nextBtn = document.getElementById("nextChBtn");
+
+      function closeDrawer() {
+        sidebar.classList.remove("open");
+        backdrop.classList.remove("open");
+      }
+      function openDrawer() {
+        sidebar.classList.add("open");
+        backdrop.classList.add("open");
+      }
+      document.getElementById("openDrawerBtn").addEventListener("click", openDrawer);
+      backdrop.addEventListener("click", closeDrawer);
+
+      function showChapter(id) {
+        const idx = CHAPTER_IDS.indexOf(id);
+        if (idx < 0) return;
+        activeIdx = idx;
+        CHAPTER_IDS.forEach((cid) => {
+          document.getElementById(cid).classList.toggle("active", cid === id);
+        });
+        document.querySelectorAll(".nav-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.getAttribute("data-ch") === id);
+        });
+        mobileChLabel.textContent = "บทที่ " + (idx + 1) + "/9";
+        prevBtn.style.visibility = idx > 0 ? "visible" : "hidden";
+        nextBtn.style.visibility = idx < CHAPTER_IDS.length - 1 ? "visible" : "hidden";
+        closeDrawer();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      document.querySelectorAll(".nav-btn").forEach((btn) => {
+        btn.addEventListener("click", () => showChapter(btn.getAttribute("data-ch")));
+      });
+      prevBtn.addEventListener("click", () => { if (activeIdx > 0) showChapter(CHAPTER_IDS[activeIdx - 1]); });
+      nextBtn.addEventListener("click", () => { if (activeIdx < CHAPTER_IDS.length - 1) showChapter(CHAPTER_IDS[activeIdx + 1]); });
+      showChapter("ch1");
 
       function randHex(bytes) {
         const arr = new Uint8Array(bytes);
@@ -311,22 +561,19 @@
         return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
       }
 
-      async function copyToClipboard(text, btn, doneText) {
+      async function copyText(text, btn, doneText) {
         try {
           await navigator.clipboard.writeText(text);
           const old = btn.textContent;
           btn.textContent = doneText || "คัดลอกแล้ว ✓";
           btn.classList.add("btn-done");
-          setTimeout(() => {
-            btn.textContent = old;
-            btn.classList.remove("btn-done");
-          }, 1800);
+          setTimeout(() => { btn.textContent = old; btn.classList.remove("btn-done"); }, 1800);
         } catch {
           alert("คัดลอกอัตโนมัติไม่สำเร็จ กรุณาลากคลุมข้อความแล้วกด Ctrl+C");
         }
       }
 
-      function generateAll() {
+      document.getElementById("genBtn").addEventListener("click", () => {
         const raw = document.getElementById("neonInput").value.trim();
         let url;
         try {
@@ -373,84 +620,60 @@
         ].join("\n");
 
         const items = [
-          {
-            key: "DATABASE_URL",
-            hint: "ลิงก์ตู้เก็บข้อมูลหลัก",
-            value: "postgresql://app_rls:" + rlsPass + "@" + pooledHost + port + dbPath + search,
-          },
-          {
-            key: "DATABASE_URL_UNPOOLED",
-            hint: "ลิงก์สำหรับสร้างตารางอัตโนมัติ",
-            value: "postgresql://app_rls:" + rlsPass + "@" + directHost + port + dbPath + search,
-          },
-          {
-            key: "DATABASE_URL_SERVICE",
-            hint: "ลิงก์ระบบหลังบ้าน",
-            value: "postgresql://maakrop_service:" + svcPass + "@" + pooledHost + port + dbPath + search,
-          },
-          {
-            key: "BETTER_AUTH_SECRET",
-            hint: "รหัสความปลอดภัยการเข้าสู่ระบบ",
-            value: authSecret,
-          },
-          {
-            key: "MAAKROP_MASTER_KEY",
-            hint: "กุญแจเข้ารหัสคีย์เสริม (แนะนำจดเก็บไว้)",
-            value: masterKey,
-          },
+          { key: "DATABASE_URL", value: "postgresql://app_rls:" + rlsPass + "@" + pooledHost + port + dbPath + search },
+          { key: "DATABASE_URL_UNPOOLED", value: "postgresql://app_rls:" + rlsPass + "@" + directHost + port + dbPath + search },
+          { key: "DATABASE_URL_SERVICE", value: "postgresql://maakrop_service:" + svcPass + "@" + pooledHost + port + dbPath + search },
+          { key: "BETTER_AUTH_SECRET", value: authSecret },
+          { key: "MAAKROP_MASTER_KEY", value: masterKey },
         ];
-
         latestAll = items.map((i) => i.key + "=" + i.value).join("\n");
         document.getElementById("sqlOut").textContent = latestSql;
 
         const list = document.getElementById("envList");
         list.innerHTML = "";
-        items.forEach((item, idx) => {
+        items.forEach((item, i) => {
           const row = document.createElement("div");
           row.className = "env-item";
-
-          const meta = document.createElement("div");
-          meta.className = "env-meta";
-
-          const top = document.createElement("div");
-          const keyEl = document.createElement("span");
-          keyEl.className = "env-key";
-          keyEl.textContent = (idx + 1) + ". " + item.key;
-          const hintEl = document.createElement("span");
-          hintEl.className = "env-hint";
-          hintEl.textContent = "— " + item.hint;
-          top.appendChild(keyEl);
-          top.appendChild(hintEl);
-
-          const valEl = document.createElement("div");
-          valEl.className = "env-val";
-          valEl.textContent = item.value;
-
-          meta.appendChild(top);
-          meta.appendChild(valEl);
-
-          const copyBtn = document.createElement("button");
-          copyBtn.type = "button";
-          copyBtn.className = "btn";
-          copyBtn.textContent = "คัดลอกช่องที่ " + (idx + 1);
-          copyBtn.addEventListener("click", () => copyToClipboard(item.value, copyBtn, "คัดลอกแล้ว ✓"));
-
-          row.appendChild(meta);
-          row.appendChild(copyBtn);
+          const left = document.createElement("div");
+          left.style.minWidth = "0";
+          left.style.flex = "1";
+          const k = document.createElement("div");
+          k.className = "env-key";
+          k.textContent = (i + 1) + ". " + item.key;
+          const v = document.createElement("div");
+          v.className = "env-val";
+          v.textContent = item.value;
+          left.appendChild(k);
+          left.appendChild(v);
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn";
+          b.textContent = "คัดลอก";
+          b.addEventListener("click", () => copyText(item.value, b, "คัดลอกแล้ว ✓"));
+          row.appendChild(left);
+          row.appendChild(b);
           list.appendChild(row);
         });
 
         document.getElementById("resultArea").style.display = "block";
         document.getElementById("copySqlBtn").style.display = "inline-flex";
         document.getElementById("copyAllBtn").style.display = "inline-flex";
-      }
-
-      document.getElementById("genBtn").addEventListener("click", generateAll);
-      document.getElementById("copySqlBtn").addEventListener("click", (e) => {
-        if (latestSql) copyToClipboard(latestSql, e.currentTarget, "คัดลอกโค้ด SQL แล้ว ✓");
+        document.getElementById("downloadBackupBtn").style.display = "inline-flex";
       });
-      document.getElementById("copyAllBtn").addEventListener("click", (e) => {
-        if (latestAll) copyToClipboard(latestAll, e.currentTarget, "คัดลอกทั้ง 5 ช่องแล้ว ✓");
+
+      document.getElementById("copySqlBtn").addEventListener("click", (e) => { if (latestSql) copyText(latestSql, e.currentTarget); });
+      document.getElementById("copyAllBtn").addEventListener("click", (e) => { if (latestAll) copyText(latestAll, e.currentTarget); });
+      document.getElementById("downloadBackupBtn").addEventListener("click", () => {
+        if (!latestAll) return;
+        const blob = new Blob(["# Maakrop Self-Hosted Teacher — Backup Env\n\n" + latestAll + "\n\n# Neon SQL\n" + latestSql + "\n"], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "maakrop-self-hosted-backup.txt";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      document.getElementById("copyCorsBtn").addEventListener("click", (e) => {
+        copyText(document.getElementById("corsJson").textContent, e.currentTarget, "คัดลอก CORS JSON แล้ว ✓");
       });
     </script>
   </body>
