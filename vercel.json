@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "regions": [
+    "sin1"
+  ],
   "installCommand": "echo 'Maakrop Self-Hosted — using verified standalone bundle (skipping npm install)'",
   "buildCommand": "node scripts/vercel-prebuilt-build.mjs",
   "outputDirectory": null

@@ -19,6 +19,7 @@
         --present-soft: #e6f6ec;
         --warn: #9a3412;
         --warn-soft: #fef3c7;
+        --err: #b91c1c;
         --radius: 16px;
       }
       * { box-sizing: border-box; }
@@ -195,6 +196,7 @@
       .well { background: var(--surface-2); border-radius: 14px; padding: 14px 16px; margin: 12px 0; }
       .note { background: var(--present-soft); color: var(--present); border-radius: 12px; padding: 12px 14px; font-size: 13px; font-weight: 500; margin: 12px 0; }
       .warn { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 12px 14px; font-size: 13px; margin: 12px 0; }
+      .err { color: var(--err); font-size: 12.5px; font-weight: 600; margin-top: 8px; display: none; }
       .grid2 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
       .grid3 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
       .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -238,7 +240,8 @@
         margin-top: 6px;
       }
       .env-key { font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; color: var(--accent); }
-      .env-val { font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted); word-break: break-all; }
+      .env-hint { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+      .env-val { font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted); word-break: break-all; margin-top: 2px; }
       .ch-footer {
         margin-top: 22px;
         padding-top: 16px;
@@ -317,7 +320,7 @@
         <div class="top-strip">
           <div>
             <h1>Maakrop Self-Hosted — Teacher Edition (ตลอดชีพ)</h1>
-            <p>ฟรีค่าโฮสต์ 0 บาท/เดือน (Vercel + Neon + R2) · ไม่มี Setup Key · ไม่มีลายน้ำ · ข้อมูลอยู่กับคุณ 100%</p>
+            <p>ฟรีค่าโฮสต์ 0 บาท/เดือน (Vercel + Neon + R2) · โซนสิงคโปร์อัตโนมัติ · ไม่มี Setup Key · ไม่มีลายน้ำ</p>
           </div>
           <div class="btn-row">
             <a class="btn btn-primary" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaakrop-dist%2Fmaakrop-teacher-dist&project-name=maakrop-teacher&repository-name=maakrop-teacher&env=DATABASE_URL,DATABASE_URL_UNPOOLED,DATABASE_URL_SERVICE,BETTER_AUTH_SECRET,MAAKROP_MASTER_KEY" target="_blank" rel="noopener">ติดตั้งบน Vercel (1 คลิก)</a>
@@ -348,20 +351,23 @@
               <h2>สร้างฐานข้อมูล Neon + รัน SQL &amp; สร้าง 5 ค่าอัตโนมัติ</h2>
             </div>
             <ol>
-              <li>เข้า <a href="https://console.neon.tech" target="_blank" rel="noopener">console.neon.tech</a> ล็อกอินด้วย Google/GitHub → กด <strong>New Project</strong> เลือกโซน <strong>AWS Asia Pacific (Singapore)</strong></li>
-              <li>กดปุ่ม <strong>Connect</strong> แล้วคัดลอกลิงก์ที่ขึ้นต้นด้วย <code>postgresql://neondb_owner...</code> มาวางในเครื่องมือด้านล่าง</li>
-              <li>คัดลอกโค้ด SQL ไปวางในเมนู <strong>SQL Editor</strong> ของ Neon แล้วกดปุ่ม <strong>Run</strong> สีเขียวครั้งเดียว</li>
+              <li>เข้า <a href="https://console.neon.tech" target="_blank" rel="noopener">console.neon.tech</a> ล็อกอินด้วย Google/GitHub → กด <strong>New Project</strong> → ตั้งชื่อโปรเจกต์แล้วเลือก Region เป็น <strong>AWS Asia Pacific (Singapore / ap-southeast-1)</strong> เพื่อให้ฐานข้อมูลอยู่ใกล้ไทยและตรงโซนกับเซิร์ฟเวอร์ Vercel</li>
+              <li>กดปุ่ม <strong>Connect</strong> แล้วคัดลอกลิงก์ของ <code>neondb_owner</code> (ขึ้นต้นด้วย <code>postgresql://neondb_owner...</code>) มาวางในเครื่องมือด้านล่าง</li>
+              <li>กดปุ่มสร้างค่า — ระบบจะสุ่มรหัสผ่านและคีย์ 64 ตัวอักษรให้ในเบราว์เซอร์ 100% โดยคงบัญชี <code>neondb_owner</code> ไว้ใน <code>DATABASE_URL_UNPOOLED</code> เพื่อสร้างตารางอัตโนมัติตอน Deploy</li>
+              <li>คัดลอกโค้ด SQL ไปวางในเมนู <strong>SQL Editor</strong> ของ Neon แล้วกดปุ่ม <strong>Run</strong> สีเขียวครั้งเดียว (ขึ้น Success ถือว่าเสร็จขั้นตอน Neon)</li>
             </ol>
             <div class="well">
-              <label for="neonInput" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">วางลิงก์ฐานข้อมูลจาก Neon (ทำงานในเครื่องคุณ 100% ไม่ส่งออกนอกเบราว์เซอร์)</label>
+              <label for="neonInput" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">วางลิงก์ฐานข้อมูลจาก Neon (ต้องเป็นของ neondb_owner · ทำงานในเครื่องคุณ 100%)</label>
               <input id="neonInput" type="text" placeholder="postgresql://neondb_owner:xxxx@ep-xxx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require" />
+              <div id="genError" class="err"></div>
               <div class="btn-row" style="margin-top:10px;">
-                <button type="button" class="btn btn-primary" id="genBtn">สร้างโค้ด SQL + ค่า 5 ช่องสำหรับ Vercel</button>
+                <button type="button" class="btn btn-primary" id="genBtn">สุ่มรหัสผ่าน + สร้างโค้ด SQL และค่า 5 ช่องสำหรับ Vercel</button>
                 <button type="button" class="btn" id="copySqlBtn" style="display:none;">คัดลอกโค้ด SQL</button>
-                <button type="button" class="btn" id="copyAllBtn" style="display:none;">คัดลอก 5 ค่าสำหรับ Bulk Paste</button>
+                <button type="button" class="btn" id="copyAllBtn" style="display:none;">คัดลอกทั้ง 5 ค่า (วางใน Vercel ทีเดียว)</button>
                 <button type="button" class="btn" id="downloadBackupBtn" style="display:none;">ดาวน์โหลดไฟล์สำรอง (.txt)</button>
               </div>
               <div id="resultArea" style="display:none;margin-top:16px;">
+                <div class="note">สุ่มรหัสผ่านและคีย์ความปลอดภัย 64 ตัวอักษรให้อัตโนมัติแล้ว! แนะนำกดปุ่ม <strong>ดาวน์โหลดไฟล์สำรอง (.txt)</strong> เก็บไว้ 1 ชุด โดยเฉพาะค่า <code>MAAKROP_MASTER_KEY</code> (เปลี่ยนสลับบทไปมาได้โดยค่าที่สร้างไว้ไม่หาย)</div>
                 <h3>2.1 โค้ด SQL (นำไปวางใน Neon SQL Editor แล้วกด Run)</h3>
                 <pre id="sqlOut"></pre>
                 <h3>2.2 ค่า Environment Variables ทั้ง 5 ช่อง (วางทีเดียวบน Vercel)</h3>
@@ -379,10 +385,11 @@
             <ol>
               <li>กดปุ่ม <strong>ติดตั้งบน Vercel (1 คลิก)</strong> ด้านบนสุด แล้วล็อกอินด้วยบัญชี GitHub</li>
               <li>ตั้งชื่อโปรเจกต์ของคุณ (เช่น <code>kru-somchai</code>) → กด <strong>Create</strong></li>
-              <li>ในส่วน <strong>Configure Project → Environment Variables</strong>: คลิกช่องซ้ายสุดของบรรทัดแรก แล้วกด <code>Ctrl+V</code> เพื่อวางชุด 5 ค่าที่คัดลอกจากบทที่ 2 (Vercel จะแตกออกเป็น 5 ช่องให้ทันที หรือคัดลอกทีละช่องก็ได้)</li>
-              <li>กดปุ่ม <strong>Deploy</strong> รอประมาณ 1–2 นาที ระบบจะดึงรันไทม์และรัน migration สร้างตารางให้อัตโนมัติ</li>
+              <li>ในส่วน <strong>Configure Project → Environment Variables</strong>: คลิกช่องซ้ายสุดของบรรทัดแรก (<code>DATABASE_URL</code>) แล้วกด <code>Ctrl+V</code> (Mac: <code>Cmd+V</code>) เพื่อวางชุด 5 ค่าที่คัดลอกจากบทที่ 2 (Vercel จะแตกออกเป็น 5 ช่องให้ทันที หรือคัดลอกทีละช่องก็ได้)</li>
+              <li>กดปุ่ม <strong>Deploy</strong> รอประมาณ 1–2 นาที ระบบจะดึงรันไทม์ที่ยืนยันลายเซ็น Ed25519 และรัน migration สร้างตารางให้อัตโนมัติ</li>
             </ol>
-            <div class="warn">แนะนำเก็บรักษาไฟล์สำรอง <code>.txt</code> ที่มีค่า <code>MAAKROP_MASTER_KEY</code> ไว้ในที่ปลอดภัย เพราะใช้เข้ารหัสคีย์บริการเสริมทั้งหมดในฐานข้อมูลของคุณ</div>
+            <div class="note"><strong>โซนสิงคโปร์ (sin1) อัตโนมัติเพื่อให้เว็บเร็ว:</strong> แพ็กเกจนี้ตั้งค่าเริ่มต้น <code>Function Region = Singapore (sin1)</code> ให้ใน <code>vercel.json</code> แล้ว เพื่อให้ตรงโซนกับฐานข้อมูล Neon สิงคโปร์ (<code>ap-southeast-1</code>) · หากคุณเคย Deploy เวอร์ชันเก่าไปก่อนหน้านี้ แนะนำเข้าไปตรวจที่ <strong>Vercel Project → Settings → Functions → Function Region</strong> เลือกเป็น <strong>Singapore, Singapore (sin1)</strong> → กด <strong>Save</strong> แล้วกด Redeploy 1 ครั้งครับ</div>
+            <div class="warn">แนะนำเก็บรักษาไฟล์สำรอง <code>maakrop-teacher-keys.txt</code> ที่มีค่า <code>MAAKROP_MASTER_KEY</code> ไว้ในที่ปลอดภัย เพราะใช้เข้ารหัสคีย์บริการเสริมทั้งหมดในฐานข้อมูลของคุณ</div>
           </section>
 
           <!-- CHAPTER 4 -->
@@ -408,7 +415,7 @@
             </div>
             <p>สำหรับอัปโหลดรูปโปรไฟล์นักเรียน ใบลา แนบไฟล์งาน และพอร์ตโฟลิโอ สามารถใช้ <strong>Cloudflare R2</strong> แผนฟรี 10 GB/เดือน:</p>
             <ol>
-              <li>สมัคร/ล็อกอิน <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">Cloudflare Dashboard</a> → ไปที่เมนู <strong>R2 Object Storage</strong> → กด <strong>Create bucket</strong> (เช่น <code>maakrop-files</code>)</li>
+              <li>สมัคร/ล็อกอิน <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">Cloudflare Dashboard</a> → ไปที่เมนู <strong>R2 Object Storage</strong> → กด <strong>Create bucket</strong> (เลือก Location: APAC เช่น <code>maakrop-files</code>)</li>
               <li>ไปที่ <strong>R2 → Manage R2 API Tokens → Create API token</strong> เลือกสิทธิ์ <strong>Object Read &amp; Write</strong> เฉพาะ bucket ของคุณ แล้วจด <code>Access Key ID</code>, <code>Secret Access Key</code>, และ <code>S3 Endpoint URL</code></li>
               <li>เปิดแท็บ <strong>Settings → CORS Policy</strong> ของ bucket แล้ววาง JSON ด้านล่าง (เปลี่ยน <code>YOUR-SITE.vercel.app</code> เป็นโดเมนจริงของคุณ):</li>
             </ol>
@@ -424,7 +431,7 @@
             <div class="btn-row" style="margin-top:8px;">
               <button type="button" class="btn" id="copyCorsBtn">คัดลอก CORS JSON</button>
             </div>
-            <p style="margin-top:10px;">จากนั้นนำค่า Endpoint, Bucket Name, Access Key ID และ Secret Access Key ไปกรอกที่หน้า <code>/admin/system</code> → แท็บ <strong>พื้นที่เก็บไฟล์ (S3 / R2)</strong> แล้วกดทดสอบการเชื่อมต่อ</p>
+            <p style="margin-top:10px;">จากนั้นนำค่า Endpoint, Bucket Name, Region ใส่ <code>auto</code>, Access Key ID และ Secret Access Key ไปกรอกที่หน้า <code>/admin/system</code> → แท็บ <strong>คีย์และการเชื่อมต่อ</strong> (หรือหน้า <code>/setup</code>) แล้วกดทดสอบการเชื่อมต่อ</p>
           </section>
 
           <!-- CHAPTER 6 -->
@@ -436,7 +443,7 @@
             <p>ในเวอร์ชัน Self-Hosted คุณใช้ API Key ของตัวเองโดยตรง (จ่ายตามจริงหรือใช้โควตาฟรีจาก Google AI Studio) โดยไม่เสียค่าบวกเพิ่ม:</p>
             <ul>
               <li><strong>Google Gemini (แนะนำ · มีโควตาฟรี):</strong> สร้างคีย์ที่ <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a></li>
-              <li><strong>OpenAI / Anthropic / AI Gateway:</strong> นำ API Key ไปใส่ที่หน้า <code>/admin/system</code> → แท็บ <strong>ผู้ช่วย AI</strong></li>
+              <li><strong>OpenAI / Anthropic / Vercel AI Gateway:</strong> นำ API Key ไปใส่ที่หน้า <code>/admin/system</code> → แท็บ <strong>คีย์และการเชื่อมต่อ</strong></li>
             </ul>
             <p>คีย์ทั้งหมดจะถูกเข้ารหัสด้วย <code>MAAKROP_MASTER_KEY</code> ก่อนเก็บลงฐานข้อมูลของคุณ</p>
           </section>
@@ -450,7 +457,7 @@
             <div class="grid2">
               <div class="well">
                 <h3>อีเมลแจ้งเตือน (Resend)</h3>
-                <p>แผนฟรีส่งได้ 3,000 ฉบับ/เดือน สมัครที่ <a href="https://resend.com" target="_blank" rel="noopener">resend.com</a> → สร้าง API Key แล้วนำมาใส่ที่ <code>/admin/system</code> → อีเมล (สำหรับลืมรหัสผ่านและแจ้งเตือน)</p>
+                <p>แผนฟรีส่งได้ 3,000 ฉบับ/เดือน สมัครที่ <a href="https://resend.com" target="_blank" rel="noopener">resend.com</a> → สร้าง API Key แล้วนำมาใส่ที่ <code>/admin/system</code> → คีย์และการเชื่อมต่อ (สำหรับลืมรหัสผ่านและแจ้งเตือน)</p>
               </div>
               <div class="well">
                 <h3>เข้าสู่ระบบด้วย Google</h3>
@@ -469,11 +476,11 @@
             <div class="grid2">
               <div class="well">
                 <h3>Ably Realtime (เกมสดในห้องเรียน)</h3>
-                <p>สมัครฟรีที่ <a href="https://ably.com" target="_blank" rel="noopener">ably.com</a> → คัดลอก Root API Key ไปวางที่ <code>/admin/system</code> → เกมสดแบบเรียลไทม์</p>
+                <p>สมัครฟรีที่ <a href="https://ably.com" target="_blank" rel="noopener">ably.com</a> → คัดลอก Root API Key ไปวางที่ <code>/admin/system</code> → คีย์และการเชื่อมต่อ (หากไม่ใส่ ระบบใช้ Polling อัตโนมัติ)</p>
               </div>
               <div class="well">
                 <h3>Mapbox (ปักหมุดแผนที่เยี่ยมบ้าน)</h3>
-                <p>สมัครฟรีที่ <a href="https://account.mapbox.com" target="_blank" rel="noopener">mapbox.com</a> → คัดลอก Public Access Token (<code>pk....</code>) ไปวางที่ <code>/admin/system</code> → แผนที่</p>
+                <p>สมัครฟรีที่ <a href="https://account.mapbox.com" target="_blank" rel="noopener">mapbox.com</a> → คัดลอก Public Access Token (<code>pk....</code>) ไปวางที่ <code>/admin/system</code> (หากไม่ใส่ ระบบใช้ OpenStreetMap ฟรีอัตโนมัติ)</p>
               </div>
             </div>
           </section>
@@ -495,9 +502,9 @@
               </div>
             </div>
             <details><summary>วาง 5 ค่าบน Vercel แล้วไม่แตกช่อง ทำอย่างไร?</summary><p>ให้คลิกที่ช่อง Key ซ้ายสุดของแถวแรกแล้วกด <code>Ctrl+V</code> หรือเลือกคัดลอกทีละช่องจากบทที่ 2 มาวางทีละแถวได้เหมือนกัน</p></details>
-            <details><summary>เปิดเว็บแล้วขึ้น Error ฐานข้อมูล แก้อย่างไร?</summary><p>ตรวจสอบว่าได้กด <strong>Run</strong> โค้ด SQL ในบทที่ 2 ใน Neon SQL Editor แล้ว และค่าทั้ง 5 ช่องบน Vercel ไม่มีช่องว่างเกินด้านหน้า/ด้านหลัง</p></details>
+            <details><summary>เปิดเว็บแล้วช้า หรือขึ้น Error ฐานข้อมูล แก้อย่างไร?</summary><p>ตรวจสอบ 3 จุด: 1) กด <strong>Run</strong> โค้ด SQL ในบทที่ 2 ใน Neon SQL Editor จนขึ้น Success แล้ว 2) ค่า <code>DATABASE_URL_UNPOOLED</code> ใช้บัญชี <code>neondb_owner</code> ที่สร้างจากเครื่องมือในบทที่ 2 และไม่มีช่องว่างเกิน 3) ทั้ง Neon และ Vercel Function Region ตั้งอยู่ที่ <strong>Singapore (sin1 / ap-southeast-1)</strong> เหมือนกัน</p></details>
             <details><summary>อัปโหลดรูปนักเรียนไม่ผ่าน ต้องเช็กอะไร?</summary><p>ตรวจสอบ CORS JSON ในบทที่ 5 ว่าใส่ <code>https://</code> และโดเมนตรงกับเว็บของคุณทุกตัวอักษรโดยไม่มีเครื่องหมาย <code>/</code> ต่อท้าย</p></details>
-            <details><summary>ผู้พัฒนาเข้าถึงข้อมูลนักเรียนในฐานข้อมูลเราได้ไหม?</summary><p>ไม่ได้ 100% — ฐานข้อมูลอยู่บนบัญชี Neon ส่วนตัวของคุณ ตัวแอปสื่อสารกับเซิร์ฟเวอร์ Maakrop เฉพาะการตรวจสอบไลเซนส์เท่านั้น</p></details>
+            <details><summary>ผู้พัฒนาเข้าถึงข้อมูลนักเรียนในฐานข้อมูลเราได้ไหม?</summary><p>ไม่ได้ 100% — ฐานข้อมูลอยู่บนบัญชี Neon ส่วนตัวของคุณ ตัวแอปตรวจลายเซ็นคีย์ Ed25519 ในเครื่องและซิงก์ต่ออายุใบรับรอง 30 วันในพื้นหลังเป็นระยะเท่านั้น (ดูประวัติการส่งออกทุกครั้งได้ที่ <code>/admin/system</code>)</p></details>
           </section>
 
           <div class="ch-footer">
@@ -513,12 +520,14 @@
       let activeIdx = 0;
       let latestSql = "";
       let latestAll = "";
+      let latestBackup = "";
 
       const sidebar = document.getElementById("sidebar");
       const backdrop = document.getElementById("backdrop");
       const mobileChLabel = document.getElementById("mobileChLabel");
       const prevBtn = document.getElementById("prevChBtn");
       const nextBtn = document.getElementById("nextChBtn");
+      const genError = document.getElementById("genError");
 
       function closeDrawer() {
         sidebar.classList.remove("open");
@@ -561,6 +570,16 @@
         return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
       }
 
+      function showGenError(msg) {
+        if (!msg) {
+          genError.textContent = "";
+          genError.style.display = "none";
+          return;
+        }
+        genError.textContent = msg;
+        genError.style.display = "block";
+      }
+
       async function copyText(text, btn, doneText) {
         try {
           await navigator.clipboard.writeText(text);
@@ -574,15 +593,21 @@
       }
 
       document.getElementById("genBtn").addEventListener("click", () => {
+        showGenError("");
         const raw = document.getElementById("neonInput").value.trim();
         let url;
         try {
           url = new URL(raw);
           if (!url.protocol.startsWith("postgres")) throw new Error("bad");
         } catch {
-          alert("ลิงก์ยังไม่ถูกต้อง — กรุณาคัดลอกลิงก์จากปุ่ม Connect ในหน้า Neon (ต้องขึ้นต้นด้วย postgresql://)");
+          showGenError("ลิงก์ยังไม่ถูกต้อง — กรุณาคัดลอกลิงก์จากปุ่ม Connect ในหน้า Neon (ต้องขึ้นต้นด้วย postgresql://)");
           return;
         }
+        if (url.username !== "neondb_owner") {
+          showGenError("กรุณาใช้ Connection String ของ neondb_owner จากปุ่ม Connect ใน Neon เพื่อให้ระบบสร้างตารางฐานข้อมูลตอน Deploy ได้");
+          return;
+        }
+
         const host = url.hostname;
         const port = url.port ? ":" + url.port : "";
         const dbPath = url.pathname && url.pathname !== "/" ? url.pathname : "/neondb";
@@ -595,7 +620,7 @@
         const masterKey = randHex(32);
 
         latestSql = [
-          "-- วางโค้ดนี้ในเมนู SQL Editor ของ Neon แล้วกดปุ่ม Run เพียงครั้งเดียว",
+          "-- คัดลอกทั้งหมดนี้ไปวางในเมนู SQL Editor ของ Neon แล้วกดปุ่ม Run เพียงครั้งเดียว",
           "DO $$ BEGIN",
           "  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_rls') THEN",
           "    CREATE ROLE app_rls LOGIN PASSWORD '" + rlsPass + "' NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;",
@@ -620,13 +645,53 @@
         ].join("\n");
 
         const items = [
-          { key: "DATABASE_URL", value: "postgresql://app_rls:" + rlsPass + "@" + pooledHost + port + dbPath + search },
-          { key: "DATABASE_URL_UNPOOLED", value: "postgresql://app_rls:" + rlsPass + "@" + directHost + port + dbPath + search },
-          { key: "DATABASE_URL_SERVICE", value: "postgresql://maakrop_service:" + svcPass + "@" + pooledHost + port + dbPath + search },
-          { key: "BETTER_AUTH_SECRET", value: authSecret },
-          { key: "MAAKROP_MASTER_KEY", value: masterKey },
+          {
+            key: "DATABASE_URL",
+            hint: "ลิงก์ตู้เก็บข้อมูลหลักสำหรับใช้งานประจำวัน (ผ่าน Pooler)",
+            value: "postgresql://app_rls:" + rlsPass + "@" + pooledHost + port + dbPath + search,
+          },
+          {
+            key: "DATABASE_URL_UNPOOLED",
+            hint: "ลิงก์ตรงของ neondb_owner สำหรับสร้างและอัปเดตตารางข้อมูลอัตโนมัติ",
+            value: "postgresql://neondb_owner:" + url.password + "@" + directHost + port + dbPath + search,
+          },
+          {
+            key: "DATABASE_URL_SERVICE",
+            hint: "ลิงก์สำหรับระบบจัดการเบื้องหลังและล็อกอิน",
+            value: "postgresql://maakrop_service:" + svcPass + "@" + pooledHost + port + dbPath + search,
+          },
+          {
+            key: "BETTER_AUTH_SECRET",
+            hint: "กุญแจเซ็นคุกกี้การเข้าสู่ระบบ (สุ่มให้ 64 ตัวอักษร)",
+            value: authSecret,
+          },
+          {
+            key: "MAAKROP_MASTER_KEY",
+            hint: "กุญแจเข้ารหัสคีย์ AI / R2 ในฐานข้อมูลของคุณ — แนะนำดาวน์โหลดเก็บไว้",
+            value: masterKey,
+          },
         ];
         latestAll = items.map((i) => i.key + "=" + i.value).join("\n");
+        latestBackup = [
+          "======================================================================",
+          "  Maakrop Self-Hosted Teacher Edition — Backup Credentials & SQL",
+          "  เก็บไฟล์นี้ไว้ในที่ปลอดภัย (ห้ามส่งต่อหรืออัปโหลดขึ้นสาธารณะ)",
+          "  รหัสผ่านและคีย์ทั้งหมดถูกสุ่มสร้างอัตโนมัติในเบราว์เซอร์ของคุณ 100%",
+          "======================================================================",
+          "",
+          "--- [ส่วนที่ 1] Environment Variables ทั้ง 5 ค่า (คัดลอก 5 บรรทัดนี้ไปกด Ctrl+V วางทีเดียวใน Vercel) ---",
+          latestAll,
+          "",
+          "--- [ส่วนที่ 2] คำสั่ง SQL สำหรับกด Run เพียงครั้งเดียวใน Neon SQL Editor ---",
+          latestSql,
+          "",
+          "--- หมายเหตุสำคัญ ---",
+          "- DATABASE_URL_UNPOOLED ใช้บัญชี neondb_owner แบบ Direct เพื่อให้ระบบสร้างและอัปเดตตารางอัตโนมัติตอน Deploy",
+          "- BETTER_AUTH_SECRET: ระบบสุ่มให้ 64 ตัวอักษร ใช้รักษาความปลอดภัยการล็อกอิน",
+          "- MAAKROP_MASTER_KEY: ระบบสุ่มให้ 64 ตัวอักษร ใช้เข้ารหัสคีย์ Cloudflare R2 / Gemini AI ในฐานข้อมูลของคุณ",
+          "",
+        ].join("\n");
+
         document.getElementById("sqlOut").textContent = latestSql;
 
         const list = document.getElementById("envList");
@@ -640,10 +705,14 @@
           const k = document.createElement("div");
           k.className = "env-key";
           k.textContent = (i + 1) + ". " + item.key;
+          const h = document.createElement("div");
+          h.className = "env-hint";
+          h.textContent = item.hint;
           const v = document.createElement("div");
           v.className = "env-val";
           v.textContent = item.value;
           left.appendChild(k);
+          left.appendChild(h);
           left.appendChild(v);
           const b = document.createElement("button");
           b.type = "button";
@@ -664,13 +733,16 @@
       document.getElementById("copySqlBtn").addEventListener("click", (e) => { if (latestSql) copyText(latestSql, e.currentTarget); });
       document.getElementById("copyAllBtn").addEventListener("click", (e) => { if (latestAll) copyText(latestAll, e.currentTarget); });
       document.getElementById("downloadBackupBtn").addEventListener("click", () => {
-        if (!latestAll) return;
-        const blob = new Blob(["# Maakrop Self-Hosted Teacher — Backup Env\n\n" + latestAll + "\n\n# Neon SQL\n" + latestSql + "\n"], { type: "text/plain;charset=utf-8" });
+        if (!latestBackup) return;
+        const blob = new Blob([latestBackup], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "maakrop-self-hosted-backup.txt";
+        a.href = url;
+        a.download = "maakrop-teacher-keys.txt";
+        document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(a.href);
+        a.remove();
+        URL.revokeObjectURL(url);
       });
       document.getElementById("copyCorsBtn").addEventListener("click", (e) => {
         copyText(document.getElementById("corsJson").textContent, e.currentTarget, "คัดลอก CORS JSON แล้ว ✓");

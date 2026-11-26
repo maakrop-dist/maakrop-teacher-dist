@@ -232,7 +232,8 @@ module.exports = async function maakropHandler(req, res) {
 `;
 writeFileSync(join(funcDir, "index.cjs"), handlerCode, "utf8");
 
-// 3d. `.vc-config.json` (Node.js 22 serverless function with response streaming enabled)
+// 3d. `.vc-config.json` (Node.js 22 serverless function with response streaming enabled + single region for Hobby compatibility)
+const vercelRegion = (process.env.MAAKROP_VERCEL_REGION || "sin1").trim() || "sin1";
 writeFileSync(
   join(funcDir, ".vc-config.json"),
   JSON.stringify(
@@ -243,6 +244,7 @@ writeFileSync(
       shouldAddHelpers: false,
       supportsResponseStreaming: true,
       maxDuration: 60,
+      regions: [vercelRegion],
     },
     null,
     2,

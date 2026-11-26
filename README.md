@@ -1,7 +1,7 @@
 # Maakrop Self-Hosted — Teacher Edition
 
 > **ระบบจัดการชั้นเรียนส่วนตัวสำหรับครู — ติดตั้งง่ายใน 10 นาที จ่ายครั้งเดียวตลอดชีพ**  
-> ครบทุกฟีเจอร์ฝั่งครู · 1 สิทธิ์ใช้งานต่อ 1 บัญชีครู · ฟรีค่าโฮสต์ 0 บาท/เดือน · ไม่มีลายน้ำ · ไม่ต้องตั้ง Setup Key · ข้อมูลนักเรียนอยู่กับคุณ 100%
+> ครบทุกฟีเจอร์ฝั่งครู · 1 สิทธิ์ใช้งานต่อ 1 บัญชีครู · ฟรีค่าโฮสต์ 0 บาท/เดือน · โซนสิงคโปร์ (`sin1`) อัตโนมัติ · ไม่มีลายน้ำ · ไม่ต้องตั้ง Setup Key · ข้อมูลนักเรียนอยู่กับคุณ 100%
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaakrop-dist%2Fmaakrop-teacher-dist&project-name=maakrop-teacher&repository-name=maakrop-teacher&env=DATABASE_URL,DATABASE_URL_UNPOOLED,DATABASE_URL_SERVICE,BETTER_AUTH_SECRET,MAAKROP_MASTER_KEY&envDescription=Copy%20these%205%20values%20from%20the%20Maakrop%20Teacher%20Setup%20Guide)
 
@@ -23,8 +23,8 @@
 
 ### ส่วนที่ 1 · ติดตั้งจำเป็น (ประมาณ 10 นาที)
 1. **บทที่ 1 — ภาพรวม & เตรียม 3 บัญชีฟรี:** Neon (ฐานข้อมูล), Vercel (โฮสต์เว็บ), GitHub (เก็บโปรเจกต์และอัปเดต 1 คลิก)
-2. **บทที่ 2 — สร้างฐานข้อมูล Neon + รัน SQL & สร้าง 5 ค่าอัตโนมัติ:** สร้าง roles (`app_rls`, `maakrop_service`) + สุ่ม `BETTER_AUTH_SECRET` & `MAAKROP_MASTER_KEY` พร้อมปุ่มดาวน์โหลดไฟล์สำรอง `.txt`
-3. **บทที่ 3 — Deploy บน Vercel (Bulk Paste 5 ช่องทีเดียว):** วางค่า Env 5 ช่องทีเดียวแล้วกด Deploy ระบบสร้างตารางอัตโนมัติ
+2. **บทที่ 2 — สร้างฐานข้อมูล Neon (เลือกโซน Singapore) + รัน SQL & สร้าง 5 ค่าอัตโนมัติ:** วางลิงก์ `neondb_owner` → สร้าง roles (`app_rls`, `maakrop_service`) + คง `neondb_owner` ใน `DATABASE_URL_UNPOOLED` + สุ่ม `BETTER_AUTH_SECRET` & `MAAKROP_MASTER_KEY` พร้อมปุ่มดาวน์โหลดไฟล์สำรอง `.txt`
+3. **บทที่ 3 — Deploy บน Vercel (Bulk Paste 5 ช่องทีเดียว · โซน `sin1` อัตโนมัติ):** วางค่า Env 5 ช่องทีเดียวแล้วกด Deploy ระบบตั้งค่า Function Region เป็น **Singapore (`sin1`)** ให้ตรงโซนกับ Neon และสร้างตารางอัตโนมัติ *(สำหรับผู้ติดตั้งเวอร์ชันเก่า ให้ตรวจที่ Vercel Project → Settings → Functions → Function Region ให้เป็น `Singapore (sin1)`)*
 4. **บทที่ 4 — ตั้งค่าหน้า `/setup` ครบ 3 ขั้นตอน:** วางรหัสไลเซนส์ `MKTH1...` *(ไม่ต้องตั้ง Setup Key!)* → สร้างบัญชีครู → กดข้ามส่วนเสริมเพื่อเริ่มใช้งานทันที
 
 ### ส่วนที่ 2 · ฟีเจอร์เสริม (ข้ามได้ — กลับมาตั้งค่าทีหลังได้ที่ `/admin/system`)
