@@ -1,16 +1,16 @@
 {
   "product": "maakrop-self-hosted-teacher",
   "edition": "self_hosted_teacher",
-  "version": "1.109.1",
-  "builtAt": "2026-11-26T22:02:30.277Z",
+  "version": "1.109.2",
+  "builtAt": "2026-11-27T01:09:26.522Z",
   "nodeMinVersion": "20.0.0",
   "serverEntrySha256": "34005d2c9da48ab24d786a4250b798e07728488eb3e132d0fdf0a329107009c8",
   "sharpVersion": "0.35.3",
   "bundle": {
-    "filename": "maakrop-teacher-standalone-v1.109.1-963cd07.tar.gz",
-    "url": "https://pub-13ca53ec5ef04d958f02ab2275eb75c0.r2.dev/releases/maakrop-teacher-standalone-v1.109.1-963cd07.tar.gz",
-    "sha256": "e0a6f46394edf5eea910dd5a96608bc992b70b529b165081c890713b3586a7f2",
-    "sizeBytes": 90932650
+    "filename": "maakrop-teacher-standalone-v1.109.2-4fff0e3.tar.gz",
+    "url": "https://pub-13ca53ec5ef04d958f02ab2275eb75c0.r2.dev/releases/maakrop-teacher-standalone-v1.109.2-4fff0e3.tar.gz",
+    "sha256": "ca09e4d95667c94fd76b8358f054efe14a729873b09943d83029cb5c8f6e0bdc",
+    "sizeBytes": 90980374
   },
   "turbopackExternals": [
     "@aws-sdk/client-s3-ecbef8e33fd0b8f0",
@@ -24,5 +24,5 @@
     "postcss-9745a0d11e3197ae",
     "sharp-20c6a5da84e2135f"
   ],
-  "signature": "KniRmcRl6JJJr8t-HYHR65EaaiDtwvDSJQb1pSu7r5Cm7I8BCM6VU7wJB-dcV28FwYN9zSGybJN00e6TIiLfCg"
+  "signature": "Ip4bcgetu6NxOF5sLmGcrJ6cAFziBbfBpYx4D405rm5WTXxTd7DqVOntNmrrrhbodVSqu077fQC3guRrOf4mAQ"
 }
